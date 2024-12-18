@@ -41,7 +41,6 @@ class UserQuery {
         }
     }
 
-    // Destruktor untuk menutup koneksi
     public function __destruct() {
         $this->db->closeConnection();
     }
