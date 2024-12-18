@@ -1,0 +1,410 @@
+:root {
+    --sd-color : #ffffff;
+    --font-color : #414242;
+    --bg1-color : #0877AF;
+    --bg2-color : #1E9B96;
+    --bg3-color : #6ABCB9;
+    --font2-color : #DFA254;
+}
+
+body{
+    font-family: "Poppins", sans-serif;
+    background-color: var(--sd-color);
+}
+
+/* Navbar Style */
+.navbar{
+    z-index: 3;
+}
+
+/* Navbar Color */
+.nav-color {
+    background-color: var(--bg2-color);
+    transition: all ease-in-out 0.3s;
+}
+
+.bg-transparent {
+    transition: all ease-in-out 0.3s;
+}
+
+* {
+    z-index: 2;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 100%;
+    color: var(--font-color) ;
+}
+
+.nav-link {
+    font-size: 100%;
+}
+
+
+.nav-link.active{
+    font-weight: 700;
+    color: var(--font-color) !important;
+}
+
+
+.nav-link:hover, .nav-link.active {
+    color: var(--font-color);
+}
+
+.button-secondary {
+    color: var(--font-color);
+    width: 6.5rem;
+    height: 2.5rem;
+    background-color: transparent;
+    border: 2px solid;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 15px;
+}
+
+.button-primary {
+    color: var(--font-color);
+    width: 6.5rem;
+    height: 2.5rem;
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+/* Hero Section */
+#hero {
+    background : linear-gradient(-118deg, var(--bg2-color) 10%, var(--sd-color), var(--sd-color), var(--bg3-color));
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 8%;
+}
+
+.hero-tagline {
+    position: relative;
+}
+
+
+.accsent-img {
+    z-index: 1;
+    position: absolute; 
+    height: auto;
+}
+
+.accsent2-img {
+    z-index: 1;
+    position: absolute; 
+    height: auto;
+}
+
+.img-hero {
+    z-index: 2;
+    position: absolute; 
+    top: 0rem; 
+    left: 85%; 
+    width: 40rem;
+    transform: translate(0rem, -8rem);
+    height: auto;
+}
+
+.hero-tagline h6 {
+    color: var(--bg1-color);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.hero-tagline h1 {
+    color: var(--font-color);
+    font-weight: 700;
+    font-size: 2.5rem;
+}
+
+.hero-tagline p {
+    font-size: 0.8rem;
+    margin-bottom: 30px;
+    margin-top: 20px;
+    width: 80%;
+}
+
+.button-lg-primary {
+    color: var(--sd-color);
+    font-weight: 700;
+    font-size: 16px;
+    width: 180px;
+    height: 53px;
+    background-color: var(--font-color);
+    border-radius: 15px;
+    border: none;
+    margin-right: 20px;
+}
+
+.button-lg-secondary {
+    color: var(--font-color);
+    font-weight: 700;
+    font-size: 16px;
+    width: 180px;
+    height: 53px;
+    background-color: transparent;
+    border-radius: 15px;
+    border-color: var(--font-color);
+}
+
+/* Feature Section */
+#fitur {
+    padding: 8% 3%;
+    position: relative;
+    height: auto;
+    width: 100%;
+}
+
+.fitur-fitur h2{
+    font-weight: 700;
+    color: var(--font-color);
+}
+
+.sub-title{
+    margin-top: 2px;
+    /* margin-bottom: 10px; */
+    font-weight: 400;
+    color: var(--bg2-color);
+}
+
+.accsent3-img {
+    z-index: 1;
+    position: absolute;
+    width: 20rem;
+    translate: -0rem -13rem;
+}
+
+.accsent4-img {
+    z-index: 1;
+    position: absolute;
+    width: 10rem;
+    translate: 1rem 5rem;
+}
+
+.card {
+    border-radius: 23px;
+    margin-top: 5px;
+    box-shadow: 0 0 7px 3px rgba(0, 0, 0, 0.10);
+    border: none;
+
+    transition: all  .2s ease-in;
+}
+
+.card-body h4 {
+    color: var(--bg2-color);
+    font-weight: 600;
+
+    transition: all  .2s ease-in;
+}
+
+.card-body p {
+    font-weight: 400;
+    font-size: small;
+
+    transition: all  .3s ease-in;
+}
+
+
+
+/* Feature Section Hover*/
+.card:hover {
+    border-radius: 23px;
+    margin-top: 5px;
+    background: linear-gradient(160deg, var(--bg2-color) , var(--bg3-color), var(--bg2-color));
+    box-shadow: 0 0 7px 3px rgba(0, 0, 0, 0.10);
+    border: none;
+    transition: all  .2s ease-in;
+}
+
+.card-body:hover h4 {
+    color: var(--sd-color);
+    font-weight: 600;
+    transition: all  .2s ease-in;
+}
+
+.card-body:hover p {
+    color: var(--sd-color);
+    font-weight: 400;
+    font-size: small;
+    transition: all  .2s ease-in;
+}
+
+
+/* Keuntungan */
+#keuntungan {
+    background : linear-gradient(-118deg, var(--bg2-color) 10%, var(--sd-color), var(--sd-color), var(--bg3-color));
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    padding: 7%;
+}
+
+.keuntungan h2 {
+    color: var(--font-color);
+    font-weight: 700;
+    z-index: 2;
+}
+
+.sub-title2 {
+    color: var(--bg1-color);
+    font-weight: 600;
+}
+
+.roket-img {
+    position: absolute;
+    top: 0;
+    left: 5%;
+    width: 40rem;
+    translate: -15% -15%;
+    z-index: 1;
+}
+
+.card2 {
+    border-radius: 23px;
+    box-shadow: 0 0 7px 3px rgba(0, 0, 0, 0.10);
+    border: none;
+
+    transition: all  .2s ease-in;
+}
+
+.card-body2 {
+    padding: 2% 3%;
+}
+
+.card-body2 h4 {
+    color: var(--bg2-color);
+    font-weight: 600;
+    font-size: 100%;
+
+    transition: all  .2s ease-in;
+}
+
+.card-body2 p {
+    font-weight: 400;
+    font-size: 90%;
+
+    transition: all  .3s ease-in;
+}
+
+/* contact section */
+#contact {
+    /* background : linear-gradient(-180deg, var(--sd-color), var(--sd-color), var(--bg3-color)); */
+    background: linear-gradient(115deg, var(--bg2-color), var(--bg3-color));
+    height: 100vh;
+    width: 100%;
+    
+}
+
+#contact .container {
+    padding: 7% 0 7% 0
+}
+
+#contact h3 {
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 60px;
+    color: var(--sd-color);
+    width: 447px;
+}
+
+#contact h6 {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 27px;
+    color: var(--sd-color);
+    margin-top: 19px;
+    margin-bottom: 14px;
+}
+
+.kontak a {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 18px;
+    color: var(--sd-color);
+    text-decoration: none;
+    margin-left: 18px;
+    width: 332px;
+    display: inline-block;
+}
+
+.linkriskyrangers {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 18px;
+    text-decoration: none;
+    color: var(--sd-color);
+}
+
+.card-contact{
+    width: 100%;
+    height: 445px;
+    background-color: var(--sd-color);
+    border-radius: 5px;
+    padding: 52px 48px;
+}
+
+.card-contact h2 {
+    font-family: Poppins;
+    font-style: normal;
+    color: var(--bg2-color);
+    font-weight: 600;
+    line-height: 60px;
+    font-size: 40px;
+    text-align: center;
+}
+
+
+.form-floating label{
+    color: var(--font-color);
+    font-size: 14px;
+    line-height: 18px;
+}
+
+.button-contact {
+    color: var(--sd-color);
+    width: 100%;
+    height: 42px;
+    background-color: var(--bg2-color);
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 400;
+    font-weight: 600;
+}
+
+/* Footer */
+footer {
+    width: 100%;
+    height: 270px;
+    background: var(--sd-color);
+}
+
+footer a {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 30px;
+    color: var(--font-color);
+    text-decoration: none;
+}
+
+.logofooter {
+    width: 5%;
+}
+
+.copyright {
+    bottom: 3%;
+    color: var(--font-color);
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 2px;
+}
+
