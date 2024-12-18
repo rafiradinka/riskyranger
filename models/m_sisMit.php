@@ -6,9 +6,21 @@ class SisMit {
         $this->connection = $conn;     
     }
 
+    private function calculateRiskValue($likelihood, $impact) {
+        return $likelihood * $impact;
+    }
+
     public function tampil($id = null){
         $db = $this->connection;
-        $sql = "SELECT id_risk, tujuan, hood_inh, imp_inh, risk_inh, control, memadai, dijalankan, hood_res, imp_res, risk_res, perlakuan, mitigasi, hood_mit, imp_mit, risk_mit FROM tb_risk";
+        $sql = "SELECT id_risk, kode_risk, hood_inh, imp_inh, 
+                        (hood_inh * imp_inh) AS risk_inh, 
+                        control, memadai, dijalankan, 
+                        hood_res, imp_res, 
+                        (hood_res * imp_res) AS risk_res, 
+                        perlakuan, mitigasi, 
+                        hood_mit, imp_mit, 
+                        (hood_mit * imp_mit) AS risk_mit 
+                FROM tb_risk";        
         if ($id != null) {
             $sql .= " WHERE id_risk = ?";
             $stmt = $db->prepare($sql);
@@ -23,10 +35,45 @@ class SisMit {
         }
     }
 
-    public function edit($id_risk, $tujuan, $hood_inh, $imp_inh, $risk_inh, $control, $memadai, $dijalankan, $hood_res, $imp_res, $risk_res, $perlakuan, $mitigasi, $hood_mit, $imp_mit, $risk_mit){
+    public function edit($id_risk, $hood_inh, $imp_inh, $risk_inh, $control, $memadai, $dijalankan, $hood_res, $imp_res, $risk_res, $perlakuan, $mitigasi, $hood_mit, $imp_mit, $risk_mit){
         $db = $this->connection;
-        $stmt = $db->prepare("UPDATE tb_risk SET tujuan = ?, hood_inh = ?, imp_inh = ?, risk_inh = ?, control = ?, memadai = ?, dijalankan = ?, hood_res = ?, imp_res = ?, risk_res = ?, perlakuan = ?, mitigasi = ?, hood_mit = ?, imp_mit = ?, risk_mit = ? WHERE id_risk = ?");
-        $stmt->bind_param('siiisssiiissiiii', $tujuan, $hood_inh, $imp_inh, $risk_inh, $control, $memadai, $dijalankan, $hood_res, $imp_res, $risk_res, $perlakuan, $mitigasi, $hood_mit, $imp_mit, $risk_mit,  $id_risk);
+        $risk_inh = $this->calculateRiskValue($hood_inh, $imp_inh);
+        $risk_res = $this->calculateRiskValue($hood_res, $imp_res);
+        $risk_mit = $this->calculateRiskValue($hood_mit, $imp_mit);
+        $stmt = $db->prepare("UPDATE tb_risk SET 
+            hood_inh = ?, 
+            imp_inh = ?, 
+            risk_inh = ?, 
+            control = ?, 
+            memadai = ?, 
+            dijalankan = ?, 
+            hood_res = ?, 
+            imp_res = ?, 
+            risk_res = ?, 
+            perlakuan = ?, 
+            mitigasi = ?, 
+            hood_mit = ?, 
+            imp_mit = ?, 
+            risk_mit = ? 
+            WHERE id_risk = ?");
+        $stmt->bind_param('iiisssiiissiiii', 
+            $hood_inh, 
+            $imp_inh, 
+            $risk_inh, 
+            $control, 
+            $memadai, 
+            $dijalankan, 
+            $hood_res, 
+            $imp_res, 
+            $risk_res, 
+            $perlakuan, 
+            $mitigasi, 
+            $hood_mit, 
+            $imp_mit, 
+            $risk_mit,  
+            $id_risk
+        );     
+
         $stmt->execute() or die($db->error);
         $stmt->close();
     }
