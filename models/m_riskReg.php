@@ -8,7 +8,7 @@ class RiskReg {
 
     public function tampil($id = null){
         $db = $this->connection;
-        $sql = "SELECT tujuan, kode_risk, jenis_risk, bisnis_risk, sumber_risk, uraian_risk, penyebab_risk, kualitatif_risk, kuantitatif_risk, risk_owner, unit_terkait FROM tb_risk";
+        $sql = "SELECT id_risk, tujuan, kode_risk, jenis_risk, bisnis_risk, sumber_risk, uraian_risk, penyebab_risk, kualitatif_risk, kuantitatif_risk, risk_owner, unit_terkait FROM tb_risk";
         if ($id != null) {
             $sql .= " WHERE id_risk = ?";
             $stmt = $db->prepare($sql);
@@ -23,10 +23,10 @@ class RiskReg {
         }
     }
 
-    public function tambah($id_risk, $tujuan, $kode_risk, $jenis_risk, $bisnis_risk, $sumber_risk, $uraian_risk, $penyebab_risk, $kualitatif_risk, $kuantitatif_risk, $risk_owner, $unit_terkait) {
+    public function tambah($id_risk, $tujuan, $kode_risk, $jenis_risk, $bisnis_risk, $sumber_risk, $uraian_risk, $penyebab_risk, $kualitatif_risk, $kuantitatif_risk, $risk_owner, $unit_terkait, $hood_inh, $imp_inh, $risk_inh, $control, $memadai, $dijalankan, $hood_res, $imp_res, $risk_res, $perlakuan, $mitigasi, $hood_mit, $imp_mit, $risk_mit) {
         $db = $this->connection;
-        $stmt = $db->prepare("INSERT INTO tb_risk (tujuan, kode_risk, jenis_risk, bisnis_risk, sumber_risk, uraian_risk, penyebab_risk, kualitatif_risk, kuantitatif_risk, risk_owner, unit_terkait) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param('sssssssssss', $tujuan, $kode_risk, $jenis_risk, $bisnis_risk, $sumber_risk, $uraian_risk, $penyebab_risk, $kualitatif_risk, $kuantitatif_risk, $risk_owner, $unit_terkait);
+        $stmt = $db->prepare("INSERT INTO tb_risk (tujuan, kode_risk, jenis_risk, bisnis_risk, sumber_risk, uraian_risk, penyebab_risk, kualitatif_risk, kuantitatif_risk, risk_owner, unit_terkait, hood_inh, imp_inh, risk_inh, control, memadai, dijalankan, hood_res, imp_res, risk_res, perlakuan, mitigasi, hood_mit, imp_mit, risk_mit) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param('sssssssssssiiisssiiissiii', $tujuan, $kode_risk, $jenis_risk, $bisnis_risk, $sumber_risk, $uraian_risk, $penyebab_risk, $kualitatif_risk, $kuantitatif_risk, $risk_owner, $unit_terkait, $hood_inh, $imp_inh, $risk_inh, $control, $memadai, $dijalankan, $hood_res, $imp_res, $risk_res, $perlakuan, $mitigasi, $hood_mit, $imp_mit, $risk_mit);
         $stmt->execute() or die($db->error);
         $stmt->close();
     }
