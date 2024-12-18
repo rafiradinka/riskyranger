@@ -1,12 +1,15 @@
 <?php 
 include("../template/_header.php");
 include("../models/m_riskReg.php");
+include("../controller/riskRegController.php");
 
-$mysqli = new mysqli("localhost", "root", "", "riskiranger"); 
-if ($mysqli->connect_error) {
-    die("Koneksi gagal: " . $mysqli->connect_error);
-}
-$user = new RiskReg($mysqli);
+$database = new Database();
+$dbConnection = $database->getConnection();;
+
+$riskReg = new RiskReg($dbConnection);
+$controller = new RiskRegController($dbConnection, $riskReg);
+
+$controller->handleRequest();
 
 ?>
     <div id="page-content-wrapper">
@@ -46,36 +49,7 @@ $user = new RiskReg($mysqli);
                       </tr>
                     </thead>
                     <tbody>
-                      <?php 
-                      $no = 1;
-                      $tampil = $user->tampil();
-                      while($data = $tampil->fetch_object()){
-                      ?>
-                      <tr>
-                        <td align="center"><?php echo $no++."."; ?></td>
-                        <td><?php echo $data->tujuan; ?></td>
-                        <td><?php echo $data->kode_risk; ?></td>
-                        <td><?php echo $data->jenis_risk; ?></td>
-                        <td><?php echo $data->bisnis_risk; ?></td>
-                        <td><?php echo $data->sumber_risk; ?></td>
-                        <td><?php echo $data->uraian_risk; ?></td>
-                        <td><?php echo $data->penyebab_risk; ?></td>
-                        <td><?php echo $data->kualitatif_risk; ?></td>
-                        <td><?php echo $data->kuantitatif_risk; ?></td>
-                        <td><?php echo $data->risk_owner; ?></td>
-                        <td><?php echo $data->unit_terkait; ?></td>
-                        <td align="center">
-                          <a href="" id="edit_risk" data-toggle="modal" data-target="#edit" data-id="<?php echo $data->id_risk; ?>" data-tujuan="<?php echo $data->tujuan; ?>" data-kode="<?php echo $data->kode_risk; ?>" data-jenis="<?php echo $data->jenis_risk; ?>" data-bisnis="<?php echo $data->bisnis_risk; ?>" data-sumber="<?php echo $data->sumber_risk; ?>" data-uraian="<?php echo $data->uraian_risk; ?>" data-penyebab="<?php echo $data->penyebab_risk; ?>" data-kualitatif="<?php echo $data->kualitatif_risk; ?>" data-kuantitatif="<?php echo $data->kuantitatif_risk; ?>" data-owner="<?php echo $data->risk_owner; ?>" data-unit="<?php echo $data->unit_terkait; ?>">
-                            <button class="btn btn-info btn-xs"><i class="fa fa-edit"></i> Edit</button>
-                          </a>
-                          <a href="?page=riskg&act=del&id=<?php echo $data->id_risk; ?>" onclick="return confirm('Yakin akan menghapus data ini?')">
-                            <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>Hapus</button>
-                          </a>
-                        </td>
-                      </tr>
-                      <?php 
-                      }
-                      ?>
+                      <?php $controller->renderUserTable(); ?>
                     </tbody>          
                   </table>
                 </div>
@@ -147,7 +121,17 @@ $user = new RiskReg($mysqli);
                           </div>
                           <div class="form-group">
                             <label class="control-label" for="unit_terkait">Unit Terkait</label>
-                            <input type="text" name="unit_terkait" class="form-control" id="unit_terkait" required>
+                            <select name="unit_terkait" class="form-control" id="unit_terkait" required>
+                              <option value="" disabled selected>Pilih Unit</option>
+                              <option value="ptipd">PTIPD</option>
+                              <option value="Fakultas Sains dan Teknologi">Fakultas Sains dan Teknologi</option>
+                              <option value="Fakultas Ekonomi dan Bisnis Islam">Fakultas Ekonomi dan Bisnis Islam</option>
+                              <option value="Fakultas Dakwah dan Komunikasi">Fakultas Dakwah dan Komunikasi</option>
+                              <option value="Fakultas Ilmu Sosial dan Humaniora">Fakultas Ilmu Sosial dan Humaniora</option>
+                              <option value="Fakultas Ilmu Tarbiyah dan Keguruan">Fakultas Ilmu Tarbiyah dan Keguruan</option>
+                              <option value="Fakultas Ushuluddin dan Pemikiran Islam">Fakultas Ushuluddin dan Pemikiran Islam</option>
+                              <option value="Fakultas Syariah dan Hukum">Fakultas Syariah dan Hukum</option>
+                            </select>
                           </div>
                           <div class="form-group">
                             <label class="control-label" for="hood_inh">Inherent Likelihood</label>
@@ -216,42 +200,6 @@ $user = new RiskReg($mysqli);
                           <input type="submit" class="btn btn-success" name="tambah" value="Simpan">
                         </div>
                       </form>
-
-                      <!-- tambah data ke database -->
-                      <?php 
-                      if(isset($_POST['tambah'])){
-                        $tujuan = $mysqli->real_escape_string($_POST['tujuan']);
-                        $kode_risk = $mysqli->real_escape_string($_POST['kode_risk']);
-                        $jenis_risk = $mysqli->real_escape_string($_POST['jenis_risk']);
-                        $bisnis_risk = $mysqli->real_escape_string($_POST['bisnis_risk']);
-                        $sumber_risk = $mysqli->real_escape_string($_POST['sumber_risk']);
-                        $uraian_risk = $mysqli->real_escape_string($_POST['uraian_risk']);
-                        $penyebab_risk = $mysqli->real_escape_string($_POST['penyebab_risk']);
-                        $kualitatif_risk = $mysqli->real_escape_string($_POST['kualitatif_risk']);
-                        $kuantitatif_risk = $mysqli->real_escape_string($_POST['kuantitatif_risk']);
-                        $risk_owner = $mysqli->real_escape_string($_POST['risk_owner']);
-                        $unit_terkait = $mysqli->real_escape_string($_POST['unit_terkait']);
-                        $hood_inh = $mysqli->real_escape_string($_POST['hood_inh']);
-                        $imp_inh = $mysqli->real_escape_string($_POST['imp_inh']);
-                        $risk_inh = $mysqli->real_escape_string($_POST['risk_inh']);
-                        $control = $mysqli->real_escape_string($_POST['control']);
-                        $memadai = $mysqli->real_escape_string($_POST['memadai']);
-                        $dijalankan = $mysqli->real_escape_string($_POST['dijalankan']);
-                        $hood_res = $mysqli->real_escape_string($_POST['hood_res']);
-                        $imp_res = $mysqli->real_escape_string($_POST['imp_res']);
-                        $risk_res = $mysqli->real_escape_string($_POST['risk_res']);
-                        $perlakuan = $mysqli->real_escape_string($_POST['perlakuan']);
-                        $mitigasi = $mysqli->real_escape_string($_POST['mitigasi']);
-                        $hood_mit = $mysqli->real_escape_string($_POST['hood_mit']);
-                        $imp_mit = $mysqli->real_escape_string($_POST['imp_mit']);
-                        $risk_mit = $mysqli->real_escape_string($_POST['risk_mit']);
-
-                        // Proses tambah data
-                        $user->tambah('', $tujuan, $kode_risk, $jenis_risk, $bisnis_risk, $sumber_risk, $uraian_risk, $penyebab_risk, $kualitatif_risk, $kuantitatif_risk, $risk_owner, $unit_terkait, $hood_inh, $imp_inh, $risk_inh, $control, $memadai, $dijalankan, $hood_res, $imp_res, $risk_res, $perlakuan, $mitigasi, $hood_mit, $imp_mit, $risk_mit);
-                        echo "<script>window.location.href = 'riskReg.php';</script>";
-                        exit;
-                      }
-                      ?>
                     </div>
                   </div>
                 </div>
@@ -323,7 +271,17 @@ $user = new RiskReg($mysqli);
                           </div>
                           <div class="form-group">
                             <label class="control-label" for="unit_terkait">Unit Terkait</label>
-                            <input type="text" name="unit_terkait" class="form-control" id="unit_terkait" required>
+                            <select name="unit_terkait" class="form-control" id="unit_terkait" required>
+                              <option value="" disabled selected>Pilih Unit</option>
+                              <option value="ptipd">PTIPD</option>
+                              <option value="Fakultas Sains dan Teknologi">Fakultas Sains dan Teknologi</option>
+                              <option value="Fakultas Ekonomi dan Bisnis Islam">Fakultas Ekonomi dan Bisnis Islam</option>
+                              <option value="Fakultas Dakwah dan Komunikasi">Fakultas Dakwah dan Komunikasi</option>
+                              <option value="Fakultas Ilmu Sosial dan Humaniora">Fakultas Ilmu Sosial dan Humaniora</option>
+                              <option value="Fakultas Ilmu Tarbiyah dan Keguruan">Fakultas Ilmu Tarbiyah dan Keguruan</option>
+                              <option value="Fakultas Ushuluddin dan Pemikiran Islam">Fakultas Ushuluddin dan Pemikiran Islam</option>
+                              <option value="Fakultas Syariah dan Hukum">Fakultas Syariah dan Hukum</option>
+                            </select>
                           </div>
                           <div class="modal-footer"> 
                             <input type="submit" class="btn btn-success" name="edit" value="Simpan">
@@ -333,64 +291,75 @@ $user = new RiskReg($mysqli);
                     </div>
                   </div>
                 </div>
-                
-                <?php 
-                if(isset($_GET['act']) && $_GET['act'] == 'del' && isset($_GET['id'])){
-                  $id = $mysqli->real_escape_string($_GET['id']);
-                  $user->hapus($id);
-                  echo "<script>window.location.href = 'riskReg.php';</script>";
-                  exit;
-                }
-                ?>
 
                 <!-- menghubungkan dengan jquery -->
                 <script src="assets/js/jquery-1.10.2.js"></script>
                 <script type="text/javascript">
-                  
-                  $(document).on("click", "#edit_risk", function(){
-                    var idrisk = $(this).data('id');
-                    var tujuan = $(this).data('tujuan');
-                    var kode_risk = $(this).data('kode');
-                    var jenis_risk = $(this).data('jenis');
-                    var bisnis_risk = $(this).data('bisnis');
-                    var sumber_risk = $(this).data('sumber');
-                    var uraian_risk = $(this).data('uraian');
-                    var penyebab_risk = $(this).data('penyebab');
-                    var kualitatif_risk = $(this).data('kualitatif');
-                    var kuantitatif_risk = $(this).data('kuantitatif');
-                    var risk_owner = $(this).data('owner');
-                    var unit_terkait = $(this).data('unit');
-                    
-                    $("#modal-edit #id_risk").val(idrisk);
-                    $("#modal-edit #tujuan").val(tujuan);
-                    $("#modal-edit #kode_risk").val(kode_risk);
-                    $("#modal-edit #jenis_risk").val(jenis_risk);
-                    $("#modal-edit #bisnis_risk").val(bisnis_risk);
-                    $("#modal-edit #sumber_risk").val(sumber_risk);
-                    $("#modal-edit #uraian_risk").val(uraian_risk);
-                    $("#modal-edit #penyebab_risk").val(penyebab_risk);
-                    $("#modal-edit #kualitatif_risk").val(kualitatif_risk);
-                    $("#modal-edit #kuantitatif_risk").val(kuantitatif_risk);
-                    $("#modal-edit #risk_owner").val(risk_owner);
-                    $("#modal-edit #unit_terkait").val(unit_terkait);
-                  });
-
-                  $(document).ready(function(){
-                    $("#form").on("submit", (function(e){
+                // Handle edit button clicks
+                document.addEventListener('DOMContentLoaded', function() {
+                // Delegasi event untuk tombol edit
+                document.querySelector('tbody').addEventListener('click', function(e) {
+                    const editButton = e.target.closest('#edit_risk');
+                    if (editButton) {
                         e.preventDefault();
-                        $.ajax({
-                          url: '../models/edit_riskReg.php',
-                          type: 'POST',
-                          data : new FormData(this),
-                          contentType : false,
-                          cache : false,
-                          processData : false,
-                          success: function(){
-                            location.reload();
-                          }
-                        })
-                    }))
-                })
+                        const idrisk = editButton.dataset.id;
+                        const tujuan = editButton.dataset.tujuan;
+                        const kode_risk = editButton.dataset.kode;
+                        const jenis_risk = editButton.dataset.jenis;
+                        const bisnis_risk = editButton.dataset.bisnis;
+                        const sumber_risk = editButton.dataset.sumber;
+                        const uraian_risk = editButton.dataset.uraian;
+                        const penyebab_risk = editButton.dataset.penyebab;
+                        const kualitatif_risk = editButton.dataset.kualitatif;
+                        const kuantitatif_risk = editButton.dataset.kuantitatif;
+                        const risk_owner = editButton.dataset.owner;
+                        const unit_terkait = editButton.dataset.unit;
+                        
+                        document.querySelector("#modal-edit #id_risk").value = idrisk;
+                        document.querySelector("#modal-edit #tujuan").value = tujuan;
+                        document.querySelector("#modal-edit #kode_risk").value = kode_risk;
+                        document.querySelector("#modal-edit #jenis_risk").value = jenis_risk;
+                        document.querySelector("#modal-edit #bisnis_risk").value = bisnis_risk;
+                        document.querySelector("#modal-edit #sumber_risk").value = sumber_risk;
+                        document.querySelector("#modal-edit #uraian_risk").value = uraian_risk;
+                        document.querySelector("#modal-edit #penyebab_risk").value = penyebab_risk;
+                        document.querySelector("#modal-edit #kualitatif_risk").value = kualitatif_risk;
+                        document.querySelector("#modal-edit #kuantitatif_risk").value = kuantitatif_risk;
+                        document.querySelector("#modal-edit #risk_owner").value = risk_owner;
+                        document.querySelector("#modal-edit #unit_terkait").value = unit_terkait;
+                    }
+                });
+
+                // Handle form submission
+                document.getElementById('form').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const formData = new FormData(this);
+                    formData.append('edit', 'true');
+                    
+                    fetch(window.location.href, { 
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if(data.success) {
+                            alert(data.message || 'User berhasil diupdate!');
+                            window.location.reload();
+                        } else {
+                            alert(data.message || 'Terjadi kesalahan saat mengedit user');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Terjadi kesalahan dalam proses edit user');
+                    });
+                  });
+                });
                 </script>
                 
             </div>
