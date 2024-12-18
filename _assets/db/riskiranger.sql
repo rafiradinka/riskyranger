@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 17 Des 2024 pada 09.05
+-- Waktu pembuatan: 18 Des 2024 pada 10.44
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -43,8 +43,8 @@ CREATE TABLE `tb_risk` (
   `hood_inh` int(11) NOT NULL,
   `imp_inh` int(11) NOT NULL,
   `risk_inh` int(11) NOT NULL,
-  `control` enum('Ada','Tidak') NOT NULL,
-  `memadai` enum('Memadai','Belum memadai') NOT NULL,
+  `control` enum('ada','tidak') NOT NULL,
+  `memadai` enum('memadai','belum') NOT NULL,
   `dijalankan` enum('100%','50%','<50%') NOT NULL,
   `hood_res` int(11) NOT NULL,
   `imp_res` int(11) NOT NULL,
@@ -61,8 +61,9 @@ CREATE TABLE `tb_risk` (
 --
 
 INSERT INTO `tb_risk` (`id_risk`, `tujuan`, `kode_risk`, `jenis_risk`, `bisnis_risk`, `sumber_risk`, `uraian_risk`, `penyebab_risk`, `kualitatif_risk`, `kuantitatif_risk`, `risk_owner`, `unit_terkait`, `hood_inh`, `imp_inh`, `risk_inh`, `control`, `memadai`, `dijalankan`, `hood_res`, `imp_res`, `risk_res`, `perlakuan`, `mitigasi`, `hood_mit`, `imp_mit`, `risk_mit`) VALUES
-(1, 'jumlah keluaran penelitian internasional mencapai ', 'R1', 'strategis', 'akademik', 'internal', 'target tidak terpenuhi', 'kompetensi akademik writing rendah', 'menurunnya reputasi universitas', '0', 'WR 1', 'Biro AAKK', 0, 0, 0, 'Ada', 'Memadai', '100%', 0, 0, 0, 'accept', '', 0, 0, 0),
-(6, 'target PNPB 2021 sebesar Rp135.000.000.000', 'R2', 'finansial', 'keuangan', 'eksternal', 'target tidak terpenuhi', 'mahasiswa banyak yang telat bayar dan cuti karena pandemi', 'tingkat maturitas BLU turun', '12.000.000.000', 'WR bidang keuangan', 'Biro AUK', 0, 0, 0, 'Ada', 'Memadai', '100%', 0, 0, 0, 'accept', '', 0, 0, 0);
+(1, 'kehilangan traksi untuk menjadi lebih baik', 'R1', 'strategis', 'akademik', 'internal', 'target tidak terpenuhi', 'kompetensi akademik writing rendah', 'menurunnya reputasi universitas', '0', 'WR 1', 'Biro AAKK', 4, 3, 12, 'ada', 'memadai', '100%', 1, 3, 3, 'accept', 'menerapkan pola hidup sehat', 1, 2, 2),
+(6, 'target PNPB 2021 sebesar Rp135.000.000.000', 'R2', 'finansial', 'keuangan', 'eksternal', 'target tidak terpenuhi', 'mahasiswa banyak yang telat bayar dan cuti karena pandemi', 'tingkat maturitas BLU turun', '12.000.000.000', 'WR bidang keuangan', 'Biro AUK', 4, 5, 20, 'ada', 'memadai', '100%', 4, 3, 12, 'accept', 'mencari dana yang sesuai', 4, 3, 12),
+(14, 'wasdasd', 'R23', 'strategis', 'akademik', 'eksternal', 'asdasd', 'asdasd', 'asdasd', '2323', 'sdasd', 'asdads', 5, 5, 25, 'tidak', 'belum', '100%', 2, 3, 6, 'reduce', 'dsfdfsdf', 5, 3, 15);
 
 -- --------------------------------------------------------
 
@@ -116,13 +117,13 @@ ALTER TABLE `tb_user`
 -- AUTO_INCREMENT untuk tabel `tb_risk`
 --
 ALTER TABLE `tb_risk`
-  MODIFY `id_risk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_risk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_user`
 --
 ALTER TABLE `tb_user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
