@@ -17,25 +17,27 @@ if (isset($_POST['id_risk']) && !empty($_POST['id_risk'])) {
     exit;
 }
 
-
-$tujuan = $mysqli->real_escape_string($_POST['tujuan']);
 $hood_inh = $mysqli->real_escape_string($_POST['hood_inh']);
 $imp_inh = $mysqli->real_escape_string($_POST['imp_inh']);
-$risk_inh = $mysqli->real_escape_string($_POST['risk_inh']);
+$risk_inh = $hood_inh * $imp_inh;
+
 $control = $mysqli->real_escape_string($_POST['control']);
 $memadai = $mysqli->real_escape_string($_POST['memadai']);
 $dijalankan = $mysqli->real_escape_string($_POST['dijalankan']);
+
 $hood_res = $mysqli->real_escape_string($_POST['hood_res']);
 $imp_res = $mysqli->real_escape_string($_POST['imp_res']);
-$risk_res = $mysqli->real_escape_string($_POST['risk_res']);
+$risk_res = $hood_res * $imp_res;
+
 $perlakuan = $mysqli->real_escape_string($_POST['perlakuan']);
 $mitigasi = $mysqli->real_escape_string($_POST['mitigasi']);
+
 $hood_mit = $mysqli->real_escape_string($_POST['hood_mit']);
 $imp_mit = $mysqli->real_escape_string($_POST['imp_mit']);
-$risk_mit = $mysqli->real_escape_string($_POST['risk_mit']);
+$risk_mit = $hood_mit * $imp_mit;
 
 // Attempt to update user
-$result = $user->edit($id_risk, $tujuan, $hood_inh, $imp_inh, $risk_inh, $control, $memadai, $dijalankan, $hood_res, $imp_res, $risk_res, $perlakuan, $mitigasi, $hood_mit, $imp_mit, $risk_mit);
+$result = $user->edit($id_risk, $hood_inh, $imp_inh, $risk_inh, $control, $memadai, $dijalankan, $hood_res, $imp_res, $risk_res, $perlakuan, $mitigasi, $hood_mit, $imp_mit, $risk_mit);
 
 if ($result) {
     echo "Update berhasil";
