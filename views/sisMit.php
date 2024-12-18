@@ -1,29 +1,30 @@
 <?php 
 include("../template/_header.php");
 include("../models/m_sisMit.php");
+include("../controller/sisMitController.php");
 
-$mysqli = new mysqli("localhost", "root", "", "riskiranger"); 
-if ($mysqli->connect_error) {
-    die("Koneksi gagal: " . $mysqli->connect_error);
-}
-$user = new SisMit($mysqli);
+$database = new Database();
+$dbConnection = $database->getConnection();
 
+$sisMit = new SisMit($dbConnection);
+$controller = new MitigasiController($dbConnection, $sisMit);
+
+$controller->handleRequest();
 ?>
     <div id="page-content-wrapper">
       <div class="container-fluid">
         <div class="row">
           <div class="col-lg-12">
-            <h1>Risk Register</h1>
+            <h1>Analisis dan Mitigasi</h1>
               <ol class="breadcrumb">
               <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
                   <li><a href=""><i class="fa fa-dashboard"></i></a></li>
                   <li><a href=""><?= $level_tampilan?></a></li>
-                  <li class="active">Risk Register</li>
+                  <li class="active">Analisi dan Mitigasi</li>
               </ol>
           </div>
         </div>
 
-        <!-- tabel utama -->
         <div class="row">
           <div class="col-lg-12">
               <div class="table-responsive">
@@ -50,42 +51,11 @@ $user = new SisMit($mysqli);
                     </tr>
                   </thead>
                   <tbody>
-                    <?php 
-                    $no = 1;
-                    $tampil = $user->tampil();
-                    while($data = $tampil->fetch_object()){
-                    ?>
-                    <tr>
-                      <td align="center"><?php echo $no++."."; ?></td>
-                      <td><?php echo $data->kode_risk; ?></td>
-                      <td><?php echo $data->hood_inh; ?></td>
-                      <td><?php echo $data->imp_inh; ?></td>
-                      <td><?php echo $data->risk_inh; ?></td>
-                      <td><?php echo $data->control; ?></td>
-                      <td><?php echo $data->memadai; ?></td>
-                      <td><?php echo $data->dijalankan; ?></td>
-                      <td><?php echo $data->hood_res; ?></td>
-                      <td><?php echo $data->imp_res; ?></td>
-                      <td><?php echo $data->risk_res; ?></td>
-                      <td><?php echo $data->perlakuan; ?></td>
-                      <td><?php echo $data->mitigasi; ?></td>
-                      <td><?php echo $data->hood_mit; ?></td>
-                      <td><?php echo $data->imp_mit; ?></td>
-                      <td><?php echo $data->risk_mit; ?></td>
-                      <td align="center">
-                        <a href="" id="edit_risk" data-toggle="modal" data-target="#edit" data-id="<?php echo $data->id_risk;?>" data-hood_i="<?php echo $data->hood_inh; ?>" data-imp_i="<?php echo $data->imp_inh; ?>" data-risk_i="<?php echo $data->risk_inh; ?>" data-control="<?php echo $data->control; ?>" data-memadai="<?php echo $data->memadai; ?>" data-dijalankan="<?php echo $data->dijalankan; ?>" data-hood_r="<?php echo $data->hood_res; ?>" data-imp_r="<?php echo $data->imp_res; ?>" data-risk_r="<?php echo $data->risk_res; ?>" data-perlakuan="<?php echo $data->perlakuan; ?>" data-mitigasi="<?php echo $data->mitigasi; ?>" data-hood_m="<?php echo $data->hood_mit; ?>" data-imp_m="<?php echo $data->imp_mit; ?>" data-risk_m="<?php echo $data->risk_mit; ?>">
-                          <button class="btn btn-info btn-xs"><i class="fa fa-edit"></i> Edit</button>
-                        </a>
-                      </td>
-                    </tr>
-                    <?php 
-                    }
-                    ?>
+                    <?php $controller->renderUserTable(); ?>
                   </tbody>          
                 </table>
               </div>
               
-
               <!-- Edit data html -->
               <div id="edit" class="modal fade" role="dialog">
                 <div class="modal-dialog">
@@ -167,59 +137,78 @@ $user = new SisMit($mysqli);
                 </div>
               </div>
 
-              <!-- menghubungkan dengan jquery -->
               <script src="assets/js/jquery-1.10.2.js"></script>
               <script type="text/javascript">
-                
-                $(document).on("click", "#edit_risk", function(){
-                  var idrisk = $(this).data('id');
-                  var hood_inh = $(this).data('hood_i');
-                  var imp_inh = $(this).data('imp_i');
-                  var risk_inh = $(this).data('risk_i');
-                  var control = $(this).data('control');
-                  var memadai = $(this).data('memadai');
-                  var dijalankan = $(this).data('dijalankan');
-                  var hood_res = $(this).data('hood_r');
-                  var imp_res = $(this).data('imp_r');
-                  var risk_res = $(this).data('risk_r');
-                  var perlakuan = $(this).data('perlakuan');
-                  var mitigasi = $(this).data('mitigasi');
-                  var hood_mit = $(this).data('hood_m');
-                  var imp_mit = $(this).data('imp_m');
-                  var risk_mit = $(this).data('risk_m');
-                  
-                  $("#modal-edit #id_risk").val(idrisk);
-                  $("#modal-edit #hood_inh").val(hood_inh);
-                  $("#modal-edit #imp_inh").val(imp_inh);
-                  $("#modal-edit #risk_inh").val(risk_inh);
-                  $("#modal-edit #control").val(control);
-                  $("#modal-edit #memadai").val(memadai);
-                  $("#modal-edit #dijalankan").val(dijalankan);
-                  $("#modal-edit #hood_res").val(hood_res);
-                  $("#modal-edit #imp_res").val(imp_res);
-                  $("#modal-edit #perlakuan").val(perlakuan);
-                  $("#modal-edit #mitigasi").val(mitigasi);
-                  $("#modal-edit #hood_mit").val(hood_mit);
-                  $("#modal-edit #imp_mit").val(imp_mit);
-                  $("#modal-edit #risk_mit").val(risk_mit);
-                });
-
-                $(document).ready(function(){
-                  $("#form").on("submit", (function(e){
+              // Handle edit button clicks
+              document.addEventListener('DOMContentLoaded', function() {
+              // Delegasi event untuk tombol edit
+              document.querySelector('tbody').addEventListener('click', function(e) {
+                  const editButton = e.target.closest('#edit_risk');
+                  if (editButton) {
                       e.preventDefault();
-                      $.ajax({
-                        url: '../models/edit_sisMit.php',
-                        type: 'POST',
-                        data : new FormData(this),
-                        contentType : false,
-                        cache : false,
-                        processData : false,
-                        success: function(){
-                          location.reload();
-                        }
-                      })
-                  }))
-              })
+                      const idrisk = editButton.dataset.id;
+                      const hood_inh = editButton.dataset.hood_i;
+                      const imp_inh = editButton.dataset.imp_i;
+                      // const risk_inh = editButton.dataset.risk_i;
+                      const control = editButton.dataset.control;
+                      const memadai = editButton.dataset.memadai;
+                      const dijalankan = editButton.dataset.dijalankan;
+                      const hood_res = editButton.dataset.hood_r;
+                      const imp_res = editButton.dataset.imp_r;
+                      // const risk_res = editButton.dataset.risk_r;
+                      const perlakuan = editButton.dataset.perlakuan;
+                      const mitigasi = editButton.dataset.mitigasi;
+                      const hood_mit = editButton.dataset.hood_m;
+                      const imp_mit = editButton.dataset.imp_m;
+                      // const risk_mit = editButton.dataset.risk_m;
+                      
+                      document.querySelector("#modal-edit #id_risk").value = idrisk;
+                      document.querySelector("#modal-edit #hood_inh").value = hood_inh;
+                      document.querySelector("#modal-edit #imp_inh").value = imp_inh;
+                      // document.querySelector("#modal-edit #risk_inh").value = risk_inh;
+                      document.querySelector("#modal-edit #control").value = control;
+                      document.querySelector("#modal-edit #memadai").value = memadai;
+                      document.querySelector("#modal-edit #dijalankan").value = dijalankan;
+                      document.querySelector("#modal-edit #hood_res").value = hood_res;
+                      document.querySelector("#modal-edit #imp_res").value = imp_res;
+                      document.querySelector("#modal-edit #perlakuan").value = perlakuan;
+                      document.querySelector("#modal-edit #mitigasi").value = mitigasi;
+                      document.querySelector("#modal-edit #hood_mit").value = hood_mit;
+                      document.querySelector("#modal-edit #imp_mit").value = imp_mit;
+                      // document.querySelector("#modal-edit #risk_mit").value = risk_mit;
+                  }
+              });
+
+              // Handle form submission
+              document.getElementById('form').addEventListener('submit', function(e) {
+                  e.preventDefault();
+                  const formData = new FormData(this);
+                  formData.append('edit', 'true');
+                  
+                  fetch(window.location.href, {
+                      method: 'POST',
+                      body: formData
+                  })
+                  .then(response => {
+                      if (!response.ok) {
+                          throw new Error('Network response was not ok');
+                      }
+                      return response.json();
+                  })
+                  .then(data => {
+                      if(data.success) {
+                          alert(data.message || 'User berhasil diupdate!');
+                          window.location.reload();
+                      } else {
+                          alert(data.message || 'Terjadi kesalahan saat mengedit user');
+                      }
+                  })
+                  .catch(error => {
+                      console.error('Error:', error);
+                      alert('Terjadi kesalahan dalam proses edit user');
+                  });
+                });
+              });
               </script>
               
           </div>
