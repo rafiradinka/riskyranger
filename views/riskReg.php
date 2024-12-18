@@ -6,7 +6,7 @@ $mysqli = new mysqli("localhost", "root", "", "riskiranger");
 if ($mysqli->connect_error) {
     die("Koneksi gagal: " . $mysqli->connect_error);
 }
-$user = new riskReg($mysqli);
+$user = new RiskReg($mysqli);
 
 ?>
 <div class="row">
@@ -62,10 +62,10 @@ $user = new riskReg($mysqli);
                 <td><?php echo $data->kuantitatif_risk; ?></td>
                 <td><?php echo $data->risk_owner; ?></td>
                 <td><?php echo $data->unit_terkait; ?></td>
-
                 <td align="center">
                   <a href="" id="edit_risk" data-toggle="modal" data-target="#edit" data-id="<?php echo $data->id_risk; ?>" data-tujuan="<?php echo $data->tujuan; ?>" data-kode="<?php echo $data->kode_risk; ?>" data-jenis="<?php echo $data->jenis_risk; ?>" data-bisnis="<?php echo $data->bisnis_risk; ?>" data-sumber="<?php echo $data->sumber_risk; ?>" data-uraian="<?php echo $data->uraian_risk; ?>" data-penyebab="<?php echo $data->penyebab_risk; ?>" data-kualitatif="<?php echo $data->kualitatif_risk; ?>" data-kuantitatif="<?php echo $data->kuantitatif_risk; ?>" data-owner="<?php echo $data->risk_owner; ?>" data-unit="<?php echo $data->unit_terkait; ?>">
-                    <button class="btn btn-info btn-xs"><i class="fa fa-edit"></i> Edit</button></a>
+                    <button class="btn btn-info btn-xs"><i class="fa fa-edit"></i> Edit</button>
+                  </a>
                   <a href="?page=riskg&act=del&id=<?php echo $data->id_risk; ?>" onclick="return confirm('Yakin akan menghapus data ini?')">
                     <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>Hapus</button>
                   </a>
@@ -147,6 +147,79 @@ $user = new riskReg($mysqli);
                     <label class="control-label" for="unit_terkait">Unit Terkait</label>
                     <input type="text" name="unit_terkait" class="form-control" id="unit_terkait" required>
                   </div>
+                  <div class="form-group">
+                    <label class="control-label" for="hood_inh">Inherent Likelihood</label>
+                    <input type="number" name="hood_inh" class="form-control" id="hood_inh" placeholder="1-5"  required>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label" for="imp_inh">Inherent Impact</label>
+                    <input type="number" name="imp_inh" class="form-control" id="imp_inh" placeholder="1-5" required>
+                  </div>
+                  <!-- <div class="form-group">
+                    <label class="control-label" for="risk_inh">Inherent Risiko</label>
+                    <input type="number" name="risk_inh" class="form-control" id="risk_inh" placeholder="1-5" required>
+                  </div> -->
+                  <div class="form-group">
+                    <label class="control-label" for="control">Kontrol</label>
+                    <select name="control" class="form-control" id="control" required>
+                      <option value="" disabled selected> --- </option>
+                      <option value="ada">Ada</option>
+                      <option value="tidak">Tidak</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label" for="memadai">Memadai</label>
+                    <select name="memadai" class="form-control" id="memadai" required>
+                      <option value="" disabled selected> --- </option>
+                      <option value="memadai">Memadai</option>
+                      <option value="belum">Belum Memadai</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label" for="dijalankan">Dijalankan</label>
+                    <select name="dijalankan" class="form-control" id="dijalankan" required>
+                      <option value="" disabled selected> --- </option>
+                      <option value="100%">Telah dijalankan</option>
+                      <option value="50%">Belum selesai dijalankan</option>
+                      <option value="<50%">Belum dijalankan</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label" for="hood_res">Residual Likelihood</label>
+                    <input type="number" name="hood_res" class="form-control" id="hood_res" placeholder="1-5" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label" for="imp_res">Residuak Impact</label>
+                    <input type="number" name="imp_res" class="form-control" id="imp_res" placeholder="1-5" required>
+                  </div>
+                  <!-- <div class="form-group">
+                    <label class="control-label" for="risk_res">Residual Risiko</label>
+                    <input type="number" name="risk_res" class="form-control" id="risk_res" placeholder="1-5" required>
+                  </div> -->
+                  <div class="form-group">
+                    <label class="control-label" for="perlakuan">Opsi Perlakuan</label>
+                    <select name="perlakuan" class="form-control" id="perlakuan" required>
+                      <option value="" disabled selected> --- </option>
+                      <option value="accept">Accept </option>
+                      <option value="reduce">Reduce </option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label" for="mitigasi">Tindakan Mitigasi</label>
+                    <input type="text" name="mitigasi" class="form-control" id="mitigasi" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label" for="hood_mit">Mitigasi Likelihood</label>
+                    <input type="number" name="hood_mit" class="form-control" id="hood_mit" placeholder="1-5" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label" for="imp_mit">Mitigasi Impact</label>
+                    <input type="number" name="imp_mit" class="form-control" id="imp_mit" placeholder="1-5" required>
+                  </div>
+                  <!-- <div class="form-group">
+                    <label class="control-label" for="risk_mit">Mitigasi Risiko</label>
+                    <input type="number" name="risk_mit" class="form-control" id="risk_mit" placeholder="1-5" required>
+                  </div>   -->
                 </div>
                 <div class="modal-footer">
                   <button type="reset" class="btn btn-danger">Reset</button>
@@ -168,9 +241,23 @@ $user = new riskReg($mysqli);
                 $kuantitatif_risk = $mysqli->real_escape_string($_POST['kuantitatif_risk']);
                 $risk_owner = $mysqli->real_escape_string($_POST['risk_owner']);
                 $unit_terkait = $mysqli->real_escape_string($_POST['unit_terkait']);
+                $hood_inh = $mysqli->real_escape_string($_POST['hood_inh']);
+                $imp_inh = $mysqli->real_escape_string($_POST['imp_inh']);
+                $risk_inh = $mysqli->real_escape_string($_POST['risk_inh']);
+                $control = $mysqli->real_escape_string($_POST['control']);
+                $memadai = $mysqli->real_escape_string($_POST['memadai']);
+                $dijalankan = $mysqli->real_escape_string($_POST['dijalankan']);
+                $hood_res = $mysqli->real_escape_string($_POST['hood_res']);
+                $imp_res = $mysqli->real_escape_string($_POST['imp_res']);
+                $risk_res = $mysqli->real_escape_string($_POST['risk_res']);
+                $perlakuan = $mysqli->real_escape_string($_POST['perlakuan']);
+                $mitigasi = $mysqli->real_escape_string($_POST['mitigasi']);
+                $hood_mit = $mysqli->real_escape_string($_POST['hood_mit']);
+                $imp_mit = $mysqli->real_escape_string($_POST['imp_mit']);
+                $risk_mit = $mysqli->real_escape_string($_POST['risk_mit']);
 
                 // Proses tambah data
-                $user->tambah('', $tujuan, $kode_risk, $jenis_risk, $bisnis_risk, $sumber_risk, $uraian_risk, $penyebab_risk, $kualitatif_risk, $kuantitatif_risk, $risk_owner, $unit_terkait);
+                $user->tambah('', $tujuan, $kode_risk, $jenis_risk, $bisnis_risk, $sumber_risk, $uraian_risk, $penyebab_risk, $kualitatif_risk, $kuantitatif_risk, $risk_owner, $unit_terkait, $hood_inh, $imp_inh, $risk_inh, $control, $memadai, $dijalankan, $hood_res, $imp_res, $risk_res, $perlakuan, $mitigasi, $hood_mit, $imp_mit, $risk_mit);
                 echo "<script>window.location.href = 'riskReg.php';</script>";
                 exit;
               }
@@ -248,7 +335,6 @@ $user = new riskReg($mysqli);
                     <label class="control-label" for="unit_terkait">Unit Terkait</label>
                     <input type="text" name="unit_terkait" class="form-control" id="unit_terkait" required>
                   </div>
-                </div>
                 <div class="modal-footer"> 
                   <input type="submit" class="btn btn-success" name="edit" value="Simpan">
                 </div>
