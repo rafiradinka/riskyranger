@@ -1,0 +1,58 @@
+/* Risk Matrix Visualization Styles */
+.risk-matrix-container {
+  max-width: 700px;
+  margin: 20px auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.risk-matrix-container svg {
+  width: 100%;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+.risk-matrix-container svg:hover {
+  transform: scale(1.02);
+}
+
+/* Risk Point Hover Effects */
+.risk-point {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.risk-point:hover {
+  transform: scale(1.5);
+  fill: #4a4a4a;
+}
+
+.risk-point-label {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.risk-point:hover .risk-point-label {
+  opacity: 1;
+}
+
+/* Tooltip-like Information */
+.risk-point-info {
+  font-size: 12px;
+  fill: #333;
+  font-weight: bold;
+  display: none;
+}
+
+.risk-point:hover .risk-point-info {
+  display: block;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .risk-matrix-container {
+    max-width: 95%;
+    padding: 10px;
+  }
+}
