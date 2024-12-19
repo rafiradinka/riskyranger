@@ -126,9 +126,7 @@ $controller->handleRequest();
             </div>
           </div>
           
-          <script src="assets/js/jquery-1.10.2.js"></script>
           <script type="text/javascript">
-
           // klik tombol edit
           document.addEventListener('DOMContentLoaded', function() {
           document.querySelector('tbody').addEventListener('click', function(e) {
