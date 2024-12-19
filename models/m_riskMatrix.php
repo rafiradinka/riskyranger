@@ -1,5 +1,5 @@
 <?php
-class RiskMatrix {
+class RiskMap {
     private $connection;
     private $matrixData = [];
 
@@ -7,7 +7,7 @@ class RiskMatrix {
         $this->connection = $conn;
     }
 
-    // Categorize risk based on likelihood and impact
+    // mengkategorikan impact
     private function categorizeRisk($likelihood, $impact) {
         $riskScore = $likelihood * $impact;
         
@@ -23,7 +23,7 @@ class RiskMatrix {
     }
 
     // Fetch and process risk data
-    public function generateRiskMatrix() {
+    public function generateRiskMap() {
         $sql = "SELECT 
                     id_risk, 
                     kode_risk, 
@@ -50,10 +50,10 @@ class RiskMatrix {
         return $matrix;
     }
 
-    // Generate HTML visualization of risk matrix
-    public function renderRiskMatrixVisualization() {
+    // membuat visualisasi html dari risk map
+    public function renderRiskMapVisualization() {
         if (empty($this->matrixData)) {
-            $this->generateRiskMatrix();
+            $this->generateRiskMap();
         }
 
         $html = '<div class="risk-matrix">';
@@ -81,21 +81,12 @@ class RiskMatrix {
         return $html;
     }
 
-    // Export risk matrix data to JSON for potential frontend visualization
-    public function exportRiskMatrixToJSON() {
-        if (empty($this->matrixData)) {
-            $this->generateRiskMatrix();
-        }
-        
-        return json_encode($this->matrixData);
-    }
-
-    public function generateCartesianRiskMatrix() {
+    public function generateCartesianRiskMap() {
         // Fetch risk data again if not already loaded
         if (empty($this->matrixData)) {
-            $this->generateRiskMatrix();
+            $this->generateRiskMap();
         }
-    
+        
         // SVG Configuration
         $svgWidth = 500;
         $svgHeight = 500;
@@ -103,8 +94,48 @@ class RiskMatrix {
         $gridSize = $svgWidth - (2 * $padding);
         $cellSize = $gridSize / 5;
     
+        $pointPositions = [];
+
+        foreach ($this->matrixData as $category => $risks) {
+            foreach ($risks as $risk) {
+                $key = $risk['hood_inh'] . '-' . $risk['imp_inh'];
+                if (!isset($pointPositions[$key])) {
+                    $pointPositions[$key] = [];
+                }
+                $pointPositions[$key][] = [
+                    'kode_risk' => $risk['kode_risk'],
+                    'category' => $category,
+                    'hood_inh' => $risk['hood_inh'],
+                    'imp_inh' => $risk['imp_inh']
+                ];
+            }
+        }
+
         // Start SVG
         $svg = "<svg width='$svgWidth' height='$svgHeight' xmlns='http://www.w3.org/2000/svg'>";
+
+         // Tambahkan style definitions
+         $svg .= "<defs>
+             <style>
+                 .risk-point { cursor: pointer; }
+                 .risk-point-info { 
+                     opacity: 0; 
+                     pointer-events: none;
+                     transition: opacity 0.3s ease;
+                 }
+                 .risk-point.active .risk-point-info { 
+                     opacity: 1;
+                     pointer-events: all;
+                 }
+                 .risk-code { 
+                     font-size: 8px; 
+                     fill: white; 
+                     pointer-events: none;
+                 }
+             </style>
+         </defs>";
+         
+
     
         // Background Grid
         $svg .= "<rect x='$padding' y='$padding' width='$gridSize' height='$gridSize' fill='#f0f0f0' stroke='#cccccc' />";
@@ -191,26 +222,108 @@ class RiskMatrix {
             $svg .= "<text x='".($x + $width/2)."' y='".($y + $height/2)."' text-anchor='middle' fill='black'>$category</text>";
         }
     
-        // Plot Risks
-        foreach ($this->matrixData as $category => $risks) {
-            foreach ($risks as $risk) {
-                $x = $padding + (($risk['hood_inh'] - 1) * $cellSize) + ($cellSize/2);
-                $y = $padding + (($risk['imp_inh'] - 1) * $cellSize) + ($cellSize/2);
-    
-                $svg .= "<g class='risk-point'>";
-                $svg .= "<circle cx='$x' cy='$y' r='5' fill='blue' />";
-                $svg .= "<text x='".($x+10)."' y='".($y+10)."' class='risk-point-label' font-size='10'>".htmlspecialchars($risk['kode_risk'])."</text>";
-                $svg .= "<text x='".($x+20)."' y='".($y+20)."' class='risk-point-info'>
-                            Kode: ".htmlspecialchars($risk['kode_risk'])."
-                            Likelihood: {$risk['hood_inh']}
-                            Impact: {$risk['imp_inh']}
-                            Risk Category: $category
-                        </text>";
-                $svg .= "</g>";
+
+        // Plot Risks dengan modifikasi untuk menampilkan kode di dalam titik
+        foreach ($pointPositions as $position => $risks) {
+            list($hoodInh, $impInh) = explode('-', $position);
+            $x = $padding + (($hoodInh - 1) * $cellSize) + ($cellSize/2);
+            $y = $padding + (($impInh - 1) * $cellSize) + ($cellSize/2);
+            
+            if (count($risks) === 1) {
+                // Single risk point
+                $risk = $risks[0];
+                $svg .= $this->createRiskPoint($x, $y, $risk, false);
+            } else {
+                // Stacked risk points
+                $offset = 0;
+                foreach ($risks as $index => $risk) {
+                    // Calculate slight offset for stacked points
+                    $offsetX = $x + cos($offset) * 5;
+                    $offsetY = $y + sin($offset) * 5;
+                    $svg .= $this->createRiskPoint($offsetX, $offsetY, $risk, true);
+                    $offset += (2 * M_PI) / count($risks);
+                }
+                
             }
         }
     
         $svg .= "</svg>";
+        return $svg;
+    }
+
+    private function createRiskPoint($x, $y, $risk, $isStacked) {
+        // Generate unique ID for each point
+        $pointId = 'point_' . $risk['kode_risk'];
+        
+        if ($isStacked) {
+            // Increase the radius of distribution
+            $radius = 15; // Increased from 5 to 15 for more spacing
+            
+            // Calculate position on a circle
+            $angle = rand(0, 360); // Random angle for more natural distribution
+            $x += cos(deg2rad($angle)) * $radius;
+            $y += sin(deg2rad($angle)) * $radius;
+        }
+        
+        $svg = "<g class='risk-point' id='$pointId' onclick='toggleRiskPoint(this)'>";
+        
+        // Add drop shadow for better visibility
+        $svg .= "<defs>
+            <filter id='shadow_$pointId' x='-20%' y='-20%' width='140%' height='140%'>
+                <feGaussianBlur in='SourceAlpha' stdDeviation='2' />
+                <feOffset dx='1' dy='1' />
+                <feComponentTransfer>
+                    <feFuncA type='linear' slope='0.3'/>
+                </feComponentTransfer>
+                <feMerge>
+                    <feMergeNode />
+                    <feMergeNode in='SourceGraphic'/>
+                </feMerge>
+            </filter>
+        </defs>";
+        
+        // Background circle with shadow
+        $svg .= "<circle cx='$x' cy='$y' r='12' fill='white' stroke='#666' 
+                 stroke-width='1' filter='url(#shadow_$pointId)'/>";
+        
+        // Main circle
+        $svg .= "<circle cx='$x' cy='$y' r='10' fill='blue'/>";
+        
+        // Risk code text
+        $svg .= "<text x='$x' y='$y' 
+                 text-anchor='middle' 
+                 dominant-baseline='middle' 
+                 class='risk-code'>" . 
+                 htmlspecialchars($risk['kode_risk']) . 
+                 "</text>";
+        
+        // Adjust tooltip position based on quadrant
+        $tooltipX = $x + 15;
+        $tooltipY = $y - 30;
+        
+        // Handle edge cases for tooltip positioning
+        if ($x > 400) $tooltipX = $x - 135;
+        if ($y > 400) $tooltipY = $y - 90;
+        
+        // Enhanced tooltip with better styling
+        $svg .= "<g class='risk-point-info'>
+            <rect x='$tooltipX' y='$tooltipY' 
+                  width='120' height='60' 
+                  fill='white'
+                  stroke='#666'
+                  stroke-width='1'
+                  rx='4' ry='4'
+                  filter='url(#shadow_$pointId)'/>
+            <text x='".($tooltipX+5)."' y='".($tooltipY+15)."' 
+                  fill='#333' font-size='10px'>
+                <tspan x='".($tooltipX+5)."' dy='0'>Kode: {$risk['kode_risk']}</tspan>
+                <tspan x='".($tooltipX+5)."' dy='12'>Likelihood: {$risk['hood_inh']}</tspan>
+                <tspan x='".($tooltipX+5)."' dy='12'>Impact: {$risk['imp_inh']}</tspan>
+                <tspan x='".($tooltipX+5)."' dy='12'>Category: {$risk['category']}</tspan>
+            </text>
+        </g>";
+        
+        $svg .= "</g>";
         return $svg;
     }
 }
