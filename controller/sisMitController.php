@@ -3,21 +3,27 @@ class MitigasiController {
     private $mysqli;
     private $sisMit;
 
-    public function __construct($mysqli, $userModel) {
+    public function __construct($mysqli, $mitModel) {
         $this->mysqli = $mysqli;
-        $this->sisMit = $userModel;
+        $this->sisMit = $mitModel;
     }
 
     public function handleRequest() {
         // Handle different actions based on request
         if (isset($_POST['edit'])) {
             header('Content-Type: application/json');
-            $this->handleEditUser();
+            $this->handleEditMit();
             return;
         }
     }
 
-    private function handleEditUser() {
+    private function validateNumericInput($value) {
+        $value = intval($value);
+        return ($value >= 1 && $value <= 5);
+    }
+
+
+    private function handleEditMit() {
         try {
             header('Content-Type: application/json');
             // Validasi input
@@ -32,7 +38,7 @@ class MitigasiController {
             throw new Exception('Semua field harus diisi!');
         }
 
-            // Escape input
+            // buat keluaran input
             $id_risk = $this->mysqli->real_escape_string($_POST['id_risk']);
             $hood_inh = $this->mysqli->real_escape_string($_POST['hood_inh']);
             $imp_inh = $this->mysqli->real_escape_string($_POST['imp_inh']);
@@ -49,18 +55,30 @@ class MitigasiController {
             $imp_mit = $this->mysqli->real_escape_string($_POST['imp_mit']);
             $risk_mit = $hood_mit * $imp_mit;
 
-            // Edit user
+            // Validate angka untuk likelihood dan impact
+            $numericFields = [
+                'hood_inh', 'imp_inh', 'hood_res',
+                'imp_res', 'hood_mit', 'imp_mit'
+            ];
+
+            foreach ($numericFields as $field) {
+                if (!$this->validateNumericInput($_POST[$field])) {
+                    throw new Exception("Nilai $field harus antara 1-5");
+                }
+            }
+
+            // Edit Data Analisis
             $this->sisMit->edit($id_risk, $hood_inh, $imp_inh, $risk_inh, $control, $memadai, $dijalankan, $hood_res, $imp_res, $risk_res, $perlakuan, $mitigasi, $hood_mit, $imp_mit, $risk_mit);
             
-            ob_clean(); // Tambahkan ini untuk membersihkan output buffer
+            ob_clean(); // untuk membersihkan output buffer
             echo json_encode([
                 'success' => true,
-                'message' => 'User berhasil diupdate'
+                'message' => 'Data Analisis berhasil diupdate'
             ]);
             exit;
 
         } catch (Exception $e) {
-            ob_clean(); // Tambahkan ini juga untuk kasus error
+            ob_clean();
             echo json_encode([
                 'success' => false,
                 'message' => $e->getMessage()
@@ -69,12 +87,7 @@ class MitigasiController {
         }
     }
     
-    private function redirect($page) {
-        echo "<script>window.location.href = '$page';</script>";
-        exit;
-    }
-
-    public function renderUserTable() {
+    public function renderMitTable() {
         $tampil = $this->sisMit->tampil();
         $no = 1;
         while($data = $tampil->fetch_object()):
