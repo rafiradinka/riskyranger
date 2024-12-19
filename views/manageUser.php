@@ -1,23 +1,22 @@
 <?php 
-// Include necessary files
 include("../template/_header.php");
 include("../models/m_manageUser.php");
 include("../controller/userController.php");
 
-// Database connection using OOP
+// Koneksi Database
 $database = new Database();
 $dbConnection = $database->getConnection();
 
-// Create user model and controller
 $user = new ManUser($dbConnection);
 $controller = new ManageUserController($dbConnection, $user);
 
-// Check user authorization
+// cek admin bukan
 cek_level('Admin');
 
-// Handle any POST or GET requests
+// buat cek POST dan GET
 $controller->handleRequest();
 ?>
+
 <div id="page-content-wrapper">
   <div class="container-fluid">
     <div class="row">
@@ -129,9 +128,9 @@ $controller->handleRequest();
           
           <script src="assets/js/jquery-1.10.2.js"></script>
           <script type="text/javascript">
-          // Handle edit button clicks
+
+          // klik tombol edit
           document.addEventListener('DOMContentLoaded', function() {
-          // Delegasi event untuk tombol edit
           document.querySelector('tbody').addEventListener('click', function(e) {
               const editButton = e.target.closest('#edit_user');
               if (editButton) {
@@ -148,7 +147,7 @@ $controller->handleRequest();
               }
           });
 
-          // Handle form submission
+          // kirim form edit
           document.getElementById('form').addEventListener('submit', function(e) {
               e.preventDefault();
               const formData = new FormData(this);
