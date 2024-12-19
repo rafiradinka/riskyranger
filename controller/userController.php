@@ -9,7 +9,6 @@ class ManageUserController {
     }
 
     public function handleRequest() {
-        // Handle different actions based on request
         if (isset($_POST['tambah'])) {
             $this->handleAddUser();
         } elseif (isset($_GET['act']) && $_GET['act'] == 'del' && isset($_GET['id'])) {
@@ -54,7 +53,7 @@ class ManageUserController {
                 throw new Exception('Semua field harus diisi!');
             }
 
-            // Escape input
+            // buat keluaran input
             $id_user = $this->mysqli->real_escape_string($_POST['id_user']);
             $username = $this->mysqli->real_escape_string($_POST['username']);
             $level = $this->mysqli->real_escape_string($_POST['level']);
@@ -65,7 +64,7 @@ class ManageUserController {
                 throw new Exception('Role tidak valid!');
             }
 
-            // Check username uniqueness
+            // cek tidak ada username yang sama
             $checkQuery = "SELECT id_user FROM tb_user WHERE username = ? AND id_user != ?";
             $stmt = $this->mysqli->prepare($checkQuery);
             $stmt->bind_param('si', $username, $id_user);
@@ -79,7 +78,7 @@ class ManageUserController {
             // Edit user
             $this->user->edit($id_user, $username, $level, $unit_terkait);
             
-            ob_clean(); // Tambahkan ini untuk membersihkan output buffer
+            ob_clean(); // untuk membersihkan output buffer
             echo json_encode([
                 'success' => true,
                 'message' => 'User berhasil diupdate'
@@ -87,7 +86,7 @@ class ManageUserController {
             exit;
 
         } catch (Exception $e) {
-            ob_clean(); // Tambahkan ini juga untuk kasus error
+            ob_clean(); 
             echo json_encode([
                 'success' => false,
                 'message' => $e->getMessage()
