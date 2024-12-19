@@ -3,25 +3,29 @@ class RiskRegController {
     private $mysqli;
     private $riskReg;
 
-    public function __construct($mysqli, $userModel) {
+    public function __construct($mysqli, $riskModel) {
         $this->mysqli = $mysqli;
-        $this->riskReg = $userModel;
+        $this->riskReg = $riskModel;
     }
 
     public function handleRequest() {
-        // Handle different actions based on request
         if (isset($_POST['tambah'])) {
-            $this->handleAddUser();
+            $this->handleAddRisk();
         } elseif (isset($_GET['act']) && $_GET['act'] == 'del' && isset($_GET['id'])) {
-            $this->handleDeleteUser();
+            $this->handleDeleteRisk();
         } elseif (isset($_POST['edit'])) {
             header('Content-Type: application/json');
-            $this->handleEditUser();
+            $this->handleEditRisk();
             return;
         }
     }
 
-    private function handleAddUser() {
+    private function validateNumericInput($value) {
+        $value = intval($value);
+        return ($value >= 1 && $value <= 5);
+    }
+
+    private function handleAddRisk() {
         try {
             $tujuan = $this->mysqli->real_escape_string($_POST['tujuan']);
             $kode_risk = $this->mysqli->real_escape_string($_POST['kode_risk']);
@@ -48,8 +52,21 @@ class RiskRegController {
             $hood_mit = $this->mysqli->real_escape_string($_POST['hood_mit']);
             $imp_mit = $this->mysqli->real_escape_string($_POST['imp_mit']);
             $risk_mit = $this->mysqli->real_escape_string($_POST['risk_mit']);
+            
 
-            // Add user
+            // Validate angka untuk likelihood dan impact
+            $numericFields = [
+                'hood_inh', 'imp_inh', 'hood_res',
+                'imp_res', 'hood_mit', 'imp_mit'
+            ];
+
+            foreach ($numericFields as $field) {
+                if (!$this->validateNumericInput($_POST[$field])) {
+                    throw new Exception("Nilai $field harus antara 1-5");
+                }
+            }
+
+            // Add risk
             $this->riskReg->tambah('', $tujuan, $kode_risk, $jenis_risk, $bisnis_risk, $sumber_risk, $uraian_risk, $penyebab_risk, $kualitatif_risk, $kuantitatif_risk, $risk_owner, $unit_terkait, $hood_inh, $imp_inh, $risk_inh, $control, $memadai, $dijalankan, $hood_res, $imp_res, $risk_res, $perlakuan, $mitigasi, $hood_mit, $imp_mit, $risk_mit);
             $this->redirect('riskReg.php');
         } catch (Exception $e) {
@@ -57,7 +74,7 @@ class RiskRegController {
         }
     }
 
-    private function handleEditUser() {
+    private function handleEditRisk() {
         try {
             header('Content-Type: application/json');
             // Validasi input
@@ -72,7 +89,7 @@ class RiskRegController {
                 throw new Exception('Semua field harus diisi!');
             }
 
-            // Escape input
+            // buat keluaran input
             $id_risk = $this->mysqli->real_escape_string($_POST['id_risk']);
             $tujuan = $this->mysqli->real_escape_string($_POST['tujuan']);
             $kode_risk = $this->mysqli->real_escape_string($_POST['kode_risk']);
@@ -86,7 +103,7 @@ class RiskRegController {
             $risk_owner = $this->mysqli->real_escape_string($_POST['risk_owner']);
             $unit_terkait = $this->mysqli->real_escape_string($_POST['unit_terkait']);
 
-            // Check username uniqueness
+            // Check tidak ada kode yang sama
             $checkQuery = "SELECT id_risk FROM tb_risk WHERE kode_risk = ? AND id_risk != ?";
             $stmt = $this->mysqli->prepare($checkQuery);
             $stmt->bind_param('si', $kode_risk, $id_risk);
@@ -97,13 +114,13 @@ class RiskRegController {
                 throw new Exception('Kode sudah terpakai!');
             }
 
-            // Edit user
+            // Edit risiko
             $this->riskReg->edit($id_risk, $tujuan, $kode_risk, $jenis_risk, $bisnis_risk, $sumber_risk, $uraian_risk, $penyebab_risk, $kualitatif_risk, $kuantitatif_risk, $risk_owner, $unit_terkait);
             
-            ob_clean(); 
+            ob_clean(); // untuk membersihkan output buffer
             echo json_encode([
                 'success' => true,
-                'message' => 'User berhasil diupdate'
+                'message' => 'Risiko berhasil diupdate'
             ]);
             exit;
 
@@ -117,7 +134,7 @@ class RiskRegController {
         }
     }
 
-    private function handleDeleteUser() {
+    private function handleDeleteRisk() {
         $id = $this->mysqli->real_escape_string($_GET['id']);
         $this->riskReg->hapus($id);
         $this->redirect('riskReg.php');
@@ -128,7 +145,7 @@ class RiskRegController {
         exit;
     }
 
-    public function renderUserTable() {
+    public function renderRiskTable() {
         $tampil = $this->riskReg->tampil();
         $no = 1;
         while($data = $tampil->fetch_object()):
