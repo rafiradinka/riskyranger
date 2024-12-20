@@ -10,7 +10,9 @@
 body{
     font-family: "Poppins", sans-serif;
     background-color: var(--sd-color);
+    background : linear-gradient(-118deg, var(--bg2-color) 10%, var(--sd-color), var(--sd-color), var(--bg3-color));
 }
+
 
 /* Navbar Style */
 .navbar{
@@ -19,7 +21,7 @@ body{
 
 /* Navbar Color */
 .nav-color {
-    background-color: var(--bg2-color);
+    background-color: rgba(255, 255, 255, 0.5);
     transition: all ease-in-out 0.3s;
 }
 
@@ -61,6 +63,11 @@ body{
     font-size: 16px;
     font-weight: 700;
     border-radius: 15px;
+    transition: 150ms ease;
+}
+
+.button-secondary:hover {
+    scale: 1.1;
 }
 
 .button-primary {
@@ -71,11 +78,15 @@ body{
     border: none;
     font-size: 16px;
     font-weight: 400;
+    transition: 150ms ease;
+}
+
+.button-primary:hover {
+    scale: 1.1;
 }
 
 /* Hero Section */
 #hero {
-    background : linear-gradient(-118deg, var(--bg2-color) 10%, var(--sd-color), var(--sd-color), var(--bg3-color));
     height: 100vh;
     width: 100%;
     position: relative;
@@ -141,6 +152,11 @@ body{
     border-radius: 15px;
     border: none;
     margin-right: 20px;
+    transition: 150ms ease;
+}
+
+.button-lg-primary:hover {
+    scale: 1.1;
 }
 
 .button-lg-secondary {
@@ -152,14 +168,27 @@ body{
     background-color: transparent;
     border-radius: 15px;
     border-color: var(--font-color);
+    transition: 150ms ease;
 }
 
-/* Feature Section */
+.button-lg-secondary:hover {
+    scale: 1.1;
+}
+
+/* Tentang Kami */
+#tentangkami {
+    height: 100vh;
+    padding: 7%;
+}
+
+.card-body-about {
+    padding: 9% 3%;
+}
+
+/* Fitur */
 #fitur {
-    padding: 8% 3%;
-    position: relative;
-    height: auto;
-    width: 100%;
+    height: 100vh;
+    padding: 7% 0 7% 0;
 }
 
 .fitur-fitur h2{
@@ -188,11 +217,19 @@ body{
     translate: 1rem 5rem;
 }
 
+.carousel {
+    padding-top: 3rem;
+}
+
 .card {
-    border-radius: 23px;
+    border-radius: 18px;
     margin-top: 5px;
     box-shadow: 0 0 7px 3px rgba(0, 0, 0, 0.10);
     border: none;
+    margin: 0.5em;
+    width: calc(100%/3);
+    z-index: 1;
+    width: 25%;
 
     transition: all  .2s ease-in;
 }
@@ -211,13 +248,23 @@ body{
     transition: all  .3s ease-in;
 }
 
+.cards-wrapper {
+    display: flex;
+    padding-bottom: 2.5rem;
+}
 
+.carousel-control-prev, .carousel-control-next, .carousel-indicators {
+    z-index: 3;
+}
+
+.carousel-caption {
+    /* padding: 1rem; */
+}
 
 /* Feature Section Hover*/
 .card:hover {
     border-radius: 23px;
     margin-top: 5px;
-    background: linear-gradient(160deg, var(--bg2-color) , var(--bg3-color), var(--bg2-color));
     box-shadow: 0 0 7px 3px rgba(0, 0, 0, 0.10);
     border: none;
     transition: all  .2s ease-in;
@@ -239,7 +286,6 @@ body{
 
 /* Keuntungan */
 #keuntungan {
-    background : linear-gradient(-118deg, var(--bg2-color) 10%, var(--sd-color), var(--sd-color), var(--bg3-color));
     height: 100vh;
     width: 100%;
     position: relative;
@@ -293,98 +339,13 @@ body{
     transition: all  .3s ease-in;
 }
 
-/* contact section */
-#contact {
-    /* background : linear-gradient(-180deg, var(--sd-color), var(--sd-color), var(--bg3-color)); */
-    background: linear-gradient(115deg, var(--bg2-color), var(--bg3-color));
-    height: 100vh;
-    width: 100%;
-    
-}
-
-#contact .container {
-    padding: 7% 0 7% 0
-}
-
-#contact h3 {
-    font-weight: 700;
-    font-size: 40px;
-    line-height: 60px;
-    color: var(--sd-color);
-    width: 447px;
-}
-
-#contact h6 {
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 27px;
-    color: var(--sd-color);
-    margin-top: 19px;
-    margin-bottom: 14px;
-}
-
-.kontak a {
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 18px;
-    color: var(--sd-color);
-    text-decoration: none;
-    margin-left: 18px;
-    width: 332px;
-    display: inline-block;
-}
-
-.linkriskyrangers {
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 18px;
-    text-decoration: none;
-    color: var(--sd-color);
-}
-
-.card-contact{
-    width: 100%;
-    height: 445px;
-    background-color: var(--sd-color);
-    border-radius: 5px;
-    padding: 52px 48px;
-}
-
-.card-contact h2 {
-    font-family: Poppins;
-    font-style: normal;
-    color: var(--bg2-color);
-    font-weight: 600;
-    line-height: 60px;
-    font-size: 40px;
-    text-align: center;
-}
-
-
-.form-floating label{
-    color: var(--font-color);
-    font-size: 14px;
-    line-height: 18px;
-}
-
-.button-contact {
-    color: var(--sd-color);
-    width: 100%;
-    height: 42px;
-    background-color: var(--bg2-color);
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: 400;
-    font-weight: 600;
-}
 
 /* Footer */
 footer {
     width: 100%;
-    height: 270px;
+    height: 12rem;
     background: var(--sd-color);
+    padding-bottom: 5rem;
 }
 
 footer a {
@@ -405,6 +366,4 @@ footer a {
     color: var(--font-color);
     font-weight: normal;
     font-size: 14px;
-    line-height: 2px;
 }
-

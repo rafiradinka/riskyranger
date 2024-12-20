@@ -1,0 +1,74 @@
+:root {
+    --sd-color : #ffffff;
+    --font-color : #414242;
+    --bg1-color : #0877AF;
+    --bg2-color : #1E9B96;
+    --bg3-color : #6ABCB9;
+    --font2-color : #DFA254;
+}
+
+/* Reset margin dan padding */
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    background-image: url('../img/gradasi3.png'); /* Sesuaikan path dengan lokasi gambar latar belakang */
+}
+
+
+.container {
+    width: 100vh;
+    height: auto;
+    padding: 2rem;
+
+}
+
+.card {
+    margin: 1rem;
+    margin-top: rem;
+    background-color: transparent;
+    box-shadow: 0 0 7px 3px rgba(0, 0, 0, 0.10);
+}
+
+.card h3 {
+    font-weight: 700;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    color: var(--bg1-color);
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+
+input[type="text"], input[type="password"] {
+    background-color: transparent; /* Membuat latar belakang input transparan */
+    color: rgba(0, 0, 0, 0.5); /* Menyesuaikan warna teks agar setengah transparan */
+    border: 1px solid #ccc; /* Mengatur batas input agar tetap terlihat */
+    
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--font-color);
+}
+
+.btn {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    width: 10rem;
+    background-color: var(--bg1-color);
+    color: var(--sd-color);
+    transition: 150ms ease;
+}
+
+.btn:hover {
+    background-color: var(--bg1-color);
+    color: var(--sd-color);
+    scale: 1.05;
+}
+

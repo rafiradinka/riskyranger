@@ -1,0 +1,92 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+nav {
+    width: 100%;
+    padding: 10px 10%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 15;
+}
+
+.user-pic {
+    width: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-left: 30px;
+    position: absolute; 
+    right: 5%; /* Menempatkan di pojok kanan */ 
+    top: 70%;
+}
+
+.sub-menu-wrap {
+    position: absolute;
+    top: 100%;
+    right: 10%;
+    width: 320px;
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 0.5s;
+}
+.sub-menu-wrap.open-menu {
+    max-height: 400px;
+}
+.sub-menu {
+    background: #fff;
+    padding: 20px;
+    margin: 10px;
+    box-shadow: 0 0 7px 3px rgba(0, 0, 0, 0.10);
+    border-radius: 2rem;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+.user-info h3 {
+    font-weight: 500;
+}
+.user-info img {
+    width: 60px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+.sub-menu hr {
+    border: 0;
+    height: 1px;
+    width: 100%;
+    background: #ccc;
+    margin: 15px 0 10px;
+}
+
+.sub-menu p {
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.sub-menu-link p {
+    width: 100%;
+}
+.sub-menu-link img {
+    width: 40px;
+    background: #e5e5e5;
+    border-radius: 50%;
+    padding: 8%;
+    margin-right: 15px;
+}
+.sub-menu-link span {
+    font-size: 22px;
+    transition: transform 0.5s;
+}
+.sub-menu-link:hover span {
+    transform: translateX(5px);
+}
+.sub-menu-link:hover p {
+    font-weight: 600;
+}

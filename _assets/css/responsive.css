@@ -85,6 +85,11 @@
         margin-bottom: 0.5rem;
     }
 
+    .copyright {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 7rem;
+    }
 }
 
 @media screen and (max-width : 768px) {
