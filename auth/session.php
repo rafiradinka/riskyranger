@@ -16,8 +16,8 @@ function cek_level($level) {
         if ($_SESSION['level'] == 'Admin') {
             header("Location: dashboard.php");
         } elseif ($_SESSION['level'] == 'Fakultas') {
-            echo 'anda tidak memiliki akses';
-            // header("Location: dashboard.php");
+            // echo 'anda tidak memiliki akses';
+            header("Location: no_access.php");
         } else {
             header("Location: ../login.php");
         }
