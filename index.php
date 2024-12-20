@@ -25,6 +25,7 @@
     type="image/x-icon" class="logo">
 
     <title>Risky Rangers</title>
+
   </head>
   <body>
 
@@ -43,6 +44,9 @@
                 <a class="nav-link active" aria-current="page" href="#hero">Beranda</a>
               </li>
               <li class="nav-item mx-2">
+                <a class="nav-link" href="#tentangkami">Tentang Kami</a>
+              </li>
+              <li class="nav-item mx-2">
                 <a class="nav-link" href="#fitur">Fitur</a>
               </li>
               <li class="nav-item mx-2">
@@ -54,7 +58,6 @@
             </ul>
 
             <div>
-              <button class="button-primary">Daftar</button>
               <a href="<?=base_url('views/login.php')?>">
                 <button class="button-secondary">Masuk</button>
               </a>
@@ -71,9 +74,13 @@
             <h6>Halo, selamat datang!</h6>
             <h1>Ambil kendali atas resiko bisnismu dengan Risky Rangers</h1>
             <p><span class="fw-bold">Website manajemen resiko</span> yang dirancang untuk membantu anda  mengidentifikasi, menganalisis, dan mengelola resiko secara efektif</p>
-          
-              <button class="button-lg-primary">Tanya lebih detail</button>
-              <button class="button-lg-secondary">Get Started</button>    
+
+              <a href="https://wa.me/+6285155270906">
+                <button class="button-lg-primary">Tanya lebih detail</button>
+              </a>
+              <a href="views/login.php">
+                <button class="button-lg-secondary">Get Started</button>    
+              </a>
             <div>
               <img src="_assets/img/pc2.png" alt="" class="img-hero">
             </div>       
@@ -86,65 +93,101 @@
       </div>
     </section>
 
-    <!-- Fitur -->
+    <!-- Tentang Kami-->
+    <section id="tentangkami">
+        <div class="container">
+            <div class="row mb-4">
+             <div class="col-12 text-center fitur-fitur mb-5">
+              <h2>Tentang Kami</h2>
+              <span class="sub-title">Lorem ipsum dolor sit amet</span>
+            </div>
+
+            <div>
+              <div class="card2">
+                <div class="card-body-about">
+                  <p>Risky Rangers adalah solusi manajemen risiko inovatif yang dirancang untuk membantu organisasi menghadapi tantangan operasional dan strategis dengan lebih efektif. Kami hadir dengan tujuan untuk memberikan alat yang canggih dan mudah digunakan, memungkinkan perusahaan untuk mengidentifikasi, menganalisis, dan mengelola risiko secara proaktif..</p>
+                </div>
+              </div>
+            </div>
+            
+            
+        </div>
+    </section>
+
+    <!-- Carousel -->
     <section id="fitur">
       <div class="container">
-        <div class="row mb-4">
-         <div class="col-12 text-center fitur-fitur">
+        <div class="col-12 text-center fitur-fitur">
           <h2>Fitur-Fitur</h2>
           <span class="sub-title">Lorem ipsum dolor sit amet</span>
-         </div>
         </div>
-          
-        <div>
-          <div class="row">
-            <div class="col-md-3">
+        <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active" data-bs-interval="10000">
+            <div class="cards-wrapper justify-content-center">
               <div class="card">
-                <img src="_assets/img/fitur1.png" alt="Identifikasi Risiko" class="card1"> 
-                <div class="card-body mb-1">
-                  <h4>Identifikasi Risiko</h3> 
-                  <p>Mendeteksi dan mencatat risiko potensial yang bisa mempengaruhi bisnis Anda.</p>
+                <img src="_assets/img/fitur1.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                 </div>
               </div>
-            </div>
-
-            <img src="_assets/img/accsent3.png" alt="" class="accsent3-img position-absolute start-0">
-            <img src="_assets/img/accsent4.png" alt="" class="accsent4-img position-absolute end-0">
-
-            <div class="col-md-3">
               <div class="card">
-                <img src="_assets/img/fitur1.png" alt="Identifikasi Risiko" class="card1"> 
-                <div class="card-body mb-1">
-                  <h4>Identifikasi Risiko</h4> 
-                  <p>Mendeteksi dan mencatat risiko potensial yang bisa mempengaruhi bisnis Anda.</p>
+                <img src="_assets/img/fitur1.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                 </div>
               </div>
-            </div>
-
-            <div class="col-md-3">
               <div class="card">
-                <img src="_assets/img/fitur1.png" alt="Identifikasi Risiko" class="card1"> 
-                <div class="card-body mb-1">
-                  <h4>Identifikasi Risiko</h4> 
-                  <p>Mendeteksi dan mencatat risiko potensial yang bisa mempengaruhi bisnis Anda.</p>
+                <img src="_assets/img/fitur1.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                 </div>
               </div>
+              
             </div>
-
-            <div class="col-md-3">
-              <div class="card">
-                <img src="_assets/img/fitur1.png" alt="Identifikasi Risiko" class="card1"> 
-                <div class="card-body mb-1">
-                  <h4>Identifikasi Risiko</h4> 
-                  <p>Mendeteksi dan mencatat risiko potensial yang bisa mempengaruhi bisnis Anda.</p>
-                </div>
-              </div>
-            </div>
-
-              </div>
-            </div>
-
           </div>
+          <div class="carousel-item" data-bs-interval="2000">
+            <div class="cards-wrapper justify-content-center">
+              <div class="card">
+                <img src="_assets/img/fitur1.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+              </div>
+              <div class="card">
+                <img src="_assets/img/fitur1.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+              </div>
+              <div class="card">
+                <img src="_assets/img/fitur1.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
         </div>
       </div>
     </section>
@@ -195,66 +238,6 @@
         </div>
       </div>
     </section>
- 
-    <!-- contact section start -->
-    <section id="contact">
-      <div class="container-fluid overlay h-100">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-6">
-              <h3>Butuh Konsultasi...?
-                  Silakan kontak kami
-                  Kami Siap Membantu</h3>
-                  <div class="kontak">
-                    <h6>Kontak</h6>
-                    <div class="mb-2 d-flex align-item-center">
-                      <div>
-                        <img src="_assets/img/location.png" alt="">
-                      </div>
-                      
-                      <a href="#">Jl. Rambutan, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta</a>
-                    </div>
-
-                    <div class="mb-2">
-                      <img src="_assets/img/contact.png" alt="">
-                      <a href="#">0851-5527-0906</a>
-                    </div>
-
-                    <div class="mb-2">
-                      <img src="_assets/img/email.png" alt="">
-                      <a href="#">riskyrangers@gmail.com</a>
-                    </div>                  
-                  </div>
-
-                  <h6>Social Media</h6>
-                    <a href="#" class="me-2"><img src="_assets/img/facebook.png" alt=""></a>
-                    <a href="#" class="me-2"><img src="_assets/img/twitter.png" alt=""></a>
-                    <a href="#" class="me-2"><img src="_assets/img/instagram.png" alt=""></a>
-                    <a href="#" class="linkriskyrangers">Risky Rangers</a>
-              </div>
-            
-              <div class="col-md-6">
-                  <div class="card-contact w-100">
-                    <form>
-                      <h2 class="pertanyaan">ada pertanyaan..?</h2>
-                      <div class="form-floating mb-3">
-                        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                        <label for="floatingInput">Masukkan email address</label>
-                      </div>
-                      <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com">
-                        <label for="floatingInput">Pertanyaan anda..</label>
-                      </div>
-
-                      <button type="submit" class="button-contact">Kirim</button>
-                    </form> 
-                  </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <!-- footer -->
     <footer class="d-flex align-items-center position-relative">
@@ -267,14 +250,14 @@
             </div>
             <div class="col-md-5 d-flex justify-content-evenly">
               <a href="#hero">Beranda</a>
+              <a href="#tentangkami">Tentang Kami</a>
               <a href="#fitur">Fitur</a>
               <a href="#keuntungan">Keuntungan</a>
-              <a href="#contact">Kontak</a>
             </div>
           </div>
           <div class="row position-absolute copyright start-50 translate-middle">
             <div class="col-12">
-              <p>Copyright by Risky Rangers All Right Reserved</p>
+              <p class="text-center">Copyright by Risky Rangers All Right Reserved</p>
             </div>
           </div>
         </div>
