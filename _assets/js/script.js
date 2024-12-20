@@ -18,3 +18,7 @@ navbarLink.forEach((navLink) => {
     navLink.classList.add("active");
   });
 });
+
+
+
+
