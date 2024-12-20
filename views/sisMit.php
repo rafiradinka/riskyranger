@@ -3,12 +3,14 @@ include("../template/_header.php");
 include("../models/m_sisMit.php");
 include("../controller/sisMitController.php");
 
+// Koneksi Database
 $database = new Database();
 $dbConnection = $database->getConnection();
 
 $sisMit = new SisMit($dbConnection);
 $controller = new MitigasiController($dbConnection, $sisMit);
 
+// buat cek POST dan GET
 $controller->handleRequest();
 ?>
     <div id="page-content-wrapper">
@@ -25,6 +27,7 @@ $controller->handleRequest();
           </div>
         </div>
 
+        <!-- tabel utama -->
         <div class="row">
           <div class="col-lg-12">
               <div class="table-responsive">
@@ -69,11 +72,11 @@ $controller->handleRequest();
                         <div class="form-group">
                           <input type="hidden" name="id_risk" id="id_risk">
                           <label class="control-label" for="hood_inh">Inherent Likelihood</label>
-                          <input type="number" name="hood_inh" class="form-control" id="hood_inh" placeholder="1-5" required>
+                          <input type="number" name="hood_inh" class="form-control" id="hood_inh" min="1" max="5" pattern="[1-5]" required>
                         </div>
                         <div class="form-group">
                           <label class="control-label" for="imp_inh">Inherent Impact</label>
-                          <input type="number" name="imp_inh" class="form-control" id="imp_inh" placeholder="1-5" required>
+                          <input type="number" name="imp_inh" class="form-control" id="imp_inh" min="1" max="5" pattern="[1-5]" required>
                         </div>
                         <div class="form-group">
                           <label class="control-label" for="control">Kontrol</label>
@@ -102,11 +105,11 @@ $controller->handleRequest();
                         </div>
                         <div class="form-group">
                           <label class="control-label" for="hood_res">Residual Likelihood</label>
-                          <input type="number" name="hood_res" class="form-control" id="hood_res" placeholder="1-5" required>
+                          <input type="number" name="hood_res" class="form-control" id="hood_res" min="1" max="5" pattern="[1-5]" required>
                         </div>
                         <div class="form-group">
                           <label class="control-label" for="imp_res">Residuak Impact</label>
-                          <input type="number" name="imp_res" class="form-control" id="imp_res" placeholder="1-5" required>
+                          <input type="number" name="imp_res" class="form-control" id="imp_res" min="1" max="5" pattern="[1-5]" required>
                         </div>
                         <div class="form-group">
                           <label class="control-label" for="perlakuan">Opsi Perlakuan</label>
@@ -122,11 +125,11 @@ $controller->handleRequest();
                         </div>
                         <div class="form-group">
                           <label class="control-label" for="hood_mit">Mitigasi Likelihood</label>
-                          <input type="number" name="hood_mit" class="form-control" id="hood_mit" placeholder="1-5" required>
+                          <input type="number" name="hood_mit" class="form-control" id="hood_mit" min="1" max="5" pattern="[1-5]" required>
                         </div>
                         <div class="form-group">
                           <label class="control-label" for="imp_mit">Mitigasi Impact</label>
-                          <input type="number" name="imp_mit" class="form-control" id="imp_mit" placeholder="1-5" required>
+                          <input type="number" name="imp_mit" class="form-control" id="imp_mit" min="1" max="5" pattern="[1-5]" required>
                         </div>
                       </div>
                       <div class="modal-footer"> 
@@ -137,11 +140,9 @@ $controller->handleRequest();
                 </div>
               </div>
 
-              <script src="assets/js/jquery-1.10.2.js"></script>
               <script type="text/javascript">
-              // Handle edit button clicks
+              // klik tombol edit
               document.addEventListener('DOMContentLoaded', function() {
-              // Delegasi event untuk tombol edit
               document.querySelector('tbody').addEventListener('click', function(e) {
                   const editButton = e.target.closest('#edit_risk');
                   if (editButton) {
@@ -149,23 +150,19 @@ $controller->handleRequest();
                       const idrisk = editButton.dataset.id;
                       const hood_inh = editButton.dataset.hood_i;
                       const imp_inh = editButton.dataset.imp_i;
-                      // const risk_inh = editButton.dataset.risk_i;
                       const control = editButton.dataset.control;
                       const memadai = editButton.dataset.memadai;
                       const dijalankan = editButton.dataset.dijalankan;
                       const hood_res = editButton.dataset.hood_r;
                       const imp_res = editButton.dataset.imp_r;
-                      // const risk_res = editButton.dataset.risk_r;
                       const perlakuan = editButton.dataset.perlakuan;
                       const mitigasi = editButton.dataset.mitigasi;
                       const hood_mit = editButton.dataset.hood_m;
                       const imp_mit = editButton.dataset.imp_m;
-                      // const risk_mit = editButton.dataset.risk_m;
                       
                       document.querySelector("#modal-edit #id_risk").value = idrisk;
                       document.querySelector("#modal-edit #hood_inh").value = hood_inh;
                       document.querySelector("#modal-edit #imp_inh").value = imp_inh;
-                      // document.querySelector("#modal-edit #risk_inh").value = risk_inh;
                       document.querySelector("#modal-edit #control").value = control;
                       document.querySelector("#modal-edit #memadai").value = memadai;
                       document.querySelector("#modal-edit #dijalankan").value = dijalankan;
@@ -175,11 +172,10 @@ $controller->handleRequest();
                       document.querySelector("#modal-edit #mitigasi").value = mitigasi;
                       document.querySelector("#modal-edit #hood_mit").value = hood_mit;
                       document.querySelector("#modal-edit #imp_mit").value = imp_mit;
-                      // document.querySelector("#modal-edit #risk_mit").value = risk_mit;
                   }
               });
 
-              // Handle form submission
+              // kirim form edit
               document.getElementById('form').addEventListener('submit', function(e) {
                   e.preventDefault();
                   const formData = new FormData(this);
@@ -209,6 +205,69 @@ $controller->handleRequest();
                   });
                 });
               });
+
+              // biar likelihood dan impact hanya bisa angka 1-5
+              document.addEventListener('DOMContentLoaded', function() {
+                    function validateInput(input) {
+                        const value = parseInt(input.value);
+                        if (isNaN(value) || value < 1 || value > 5) {
+                            if (!input.dataset.alertShown) {
+                                alert('Nilai harus antara 1-5');
+                                input.dataset.alertShown = 'true';
+                            }
+                            input.value = ''; 
+                            return false;
+                        }
+                        input.dataset.alertShown = 'false';
+                        return true;
+                    }
+
+                    const numberInputs = [
+                        'hood_inh', 'imp_inh', 'hood_res', 
+                        'imp_res', 'hood_mit', 'imp_mit'
+                    ];
+
+                    numberInputs.forEach(inputId => {
+                        const input = document.getElementById(inputId);
+                        if (input) {
+                            input.addEventListener('input', function() {
+                                const value = this.value;
+                                if (value !== '' && (value < 1 || value > 5)) {
+                                    if (!this.dataset.alertShown) {
+                                        alert('Nilai harus antara 1-5');
+                                        this.dataset.alertShown = 'true';
+                                    }
+                                    this.value = '';
+                                } else {
+                                    this.dataset.alertShown = 'false';
+                                }
+                            });
+
+                            input.addEventListener('keypress', function(e) {
+                                if (!/[1-5]/.test(e.key)) {
+                                    e.preventDefault();
+                                }
+                            });
+
+                            const form = input.closest('form');
+                            if (form && !form.dataset.validationAdded) {
+                                form.dataset.validationAdded = 'true';
+                                form.addEventListener('submit', function(e) {
+                                    let isValid = true;
+                                    numberInputs.forEach(id => {
+                                        const input = document.getElementById(id);
+                                        if (input && !validateInput(input)) {
+                                            isValid = false;
+                                        }
+                                    });
+                                    if (!isValid) {
+                                        e.preventDefault();
+                                    }
+                                });
+                            }
+                        }
+                    });
+                });
               </script>
               
           </div>

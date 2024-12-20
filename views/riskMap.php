@@ -14,6 +14,25 @@ $matrix = $riskMatrix->generateRiskMap();
 // Generate Cartesian Risk Matrix SVG
 $cartesianMatrix = $riskMatrix->generateCartesianRiskMap();
 ?>
+
+    <script>
+   // membuka tooltip ketika klik titik point
+    const toggleRiskPoint = (element) => {
+        document.querySelectorAll('.risk-point').forEach(point => {
+            if (point !== element) point.classList.remove('active');
+        });
+        element.classList.toggle('active');
+    };
+
+    // menutup tooltip ketika klik bagian selain titik point
+    document.addEventListener('click', (event) => {
+        if (!event.target.closest('.risk-point')) {
+            document.querySelectorAll('.risk-point').forEach(point => {
+                point.classList.remove('active');
+            });
+        }
+    });
+    </script>
     <div id="page-content-wrapper">
       <div class="container-fluid">
         <div class="row">

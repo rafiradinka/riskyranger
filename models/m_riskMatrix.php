@@ -339,7 +339,7 @@ class RiskMap {
         $riskTypeLabel = ucfirst($riskType);
         $svg .= "<g class='risk-point-info'>
             <rect x='$tooltipX' y='$tooltipY' 
-                  width='120' height='75' 
+                  width='150' height='75' 
                   fill='white'
                   stroke='#666'
                   stroke-width='1'
