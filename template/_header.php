@@ -8,6 +8,7 @@ cek_login();
 if (isset($_GET['logout'])) {
   logout();
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -23,6 +24,14 @@ if (isset($_GET['logout'])) {
     <link href="<?= base_url('_assets/css/bootstrap.min.css')?>" rel="stylesheet">
     <link href="<?= base_url('_assets/css/simple-sidebar.css')?>" rel="stylesheet">
     <link href="<?= base_url('_assets/css/risk-matrix.css')?>" rel="stylesheet">
+    <link href="<?= base_url('_assets/css/profile.css')?>" rel="stylesheet">
+
+
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
 </head>
 <body>
 <script src="<?=base_url('_assets/js/jquery.js')?>"></script>
@@ -32,7 +41,7 @@ if (isset($_GET['logout'])) {
     <div id="sidebar-wrapper">
         <ul class="sidebar-nav">
             <li class="sidebar-brand">
-                <a href=""><span class="text-primary"><b>Risky</b></span> Ranger </a>
+                <a href=""><img src="../_assets/img/logo-rr-white.png" alt="" width="20" class="logo-white">Risky Ranger</a>
             </li>
             <li>
                 <a href="<?=base_url('views/dashboard.php')?>">Dashboard</a>
@@ -56,4 +65,29 @@ if (isset($_GET['logout'])) {
     </div>
       <!-- /#sidebar-wrapper -->
 
+
+    <!-- Profile Picture -->
+    <div class="hero">
+        <nav>
+
+            <img src="../_assets/img/profile.jpeg" rel="logo" class="user-pic" id="profile" onclick="toggleMenu()">
+            
+            <div class="sub-menu-wrap" id="subMenu">
+                <div class="sub-menu">
+                    <div class="user-info">
+                        <img src="../_assets/img/profile.jpeg">
+                        <h3><?=$level_tampilan?></h3>
+                    </div>
+                    <hr>
+                    <p>Level : <?=$level_tampilan?></p>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Javascript -->
+    <script src="../_assets/js/profile.js"></script>
+    
+
       <!-- Page Content -->
+       <!--  -->
