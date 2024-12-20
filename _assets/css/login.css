@@ -16,6 +16,8 @@
 
 body {
     background-image: url('../img/gradasi3.png'); /* Sesuaikan path dengan lokasi gambar latar belakang */
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 
