@@ -51,7 +51,7 @@ $controller->handleRequest();
                     </tr>
                   </thead>
                   <tbody>
-                    <?php $controller->renderUserTable(); ?>
+                    <?php $controller->renderMitTable(); ?>
                   </tbody>          
                 </table>
               </div>

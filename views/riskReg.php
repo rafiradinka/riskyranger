@@ -49,7 +49,7 @@ $controller->handleRequest();
                       </tr>
                     </thead>
                     <tbody>
-                      <?php $controller->renderUserTable(); ?>
+                      <?php $controller->renderRiskTable(); ?>
                     </tbody>          
                   </table>
                 </div>

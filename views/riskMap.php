@@ -6,12 +6,13 @@ $mysqli = new mysqli("localhost", "root", "", "riskiranger");
 if ($mysqli->connect_error) {
     die("Koneksi gagal: " . $mysqli->connect_error);
 }
-$riskMatrix  = new RiskMatrix($mysqli);
+// $riskMatrix  = new RiskMatrix($mysqli);
+$riskMatrix = new RiskMap($mysqli);
 
-$matrix = $riskMatrix->generateRiskMatrix();
+$matrix = $riskMatrix->generateRiskMap();
 
 // Generate Cartesian Risk Matrix SVG
-$cartesianMatrix = $riskMatrix->generateCartesianRiskMatrix();
+$cartesianMatrix = $riskMatrix->generateCartesianRiskMap();
 ?>
     <div id="page-content-wrapper">
       <div class="container-fluid">
