@@ -18,6 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
     $userQuery = new UserQuery();
     if ($userQuery->login($username, $password)) {
+        $_SESSION['username'] = $username;
         header("Location:dashboard.php");
         exit();
     } else {
@@ -29,14 +30,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Login Manajemen Risiko</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- My Style -->
+    <link rel="stylesheet" href="../_assets/css/login.css">
+
+    <!-- Font Google-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Logo Title Bar-->
+    <link rel="icon" href="../_assets/img/logo-rr.jpg"
+    type="image/x-icon" class="logo">
+
+    <title>Login Manajemen Risiko</title>
+
 </head>
 <body>
     <div class="container mt-5">
         <div class="row justify-content-center">
-            <div class="col-md-6">
+            <div class="col-md-12 mt-3">
                 <div class="card">
                     <div class="card-header text-center">
                         <h3>Login Manajemen Risiko</h3>
@@ -54,13 +69,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <label for="password" class="form-label">Password</label>
                                 <input type="password" class="form-control" id="password" name="password" required>
                             </div>
-                            <button type="submit" class="btn btn-primary w-100">Login</button>
+                            <button type="submit" class="btn w-100">Login</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Javascript -->
+    <script src="../_assets/js/login.js"></script>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
