@@ -20,7 +20,7 @@ $controller->handleRequest();
                 <ol class="breadcrumb">
                 <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
                     <li><a href=""><i class="fa fa-dashboard"></i></a></li>
-                    <li><a href=""><?= $level_tampilan?></a></li>
+                    <li><a href=""><?= htmlspecialchars($level); ?></a></li>
                     <li class="active">Risk Register</li>
                 </ol>
             </div>
@@ -171,7 +171,7 @@ $controller->handleRequest();
                             <input type="number" name="hood_res" class="form-control" id="hood_res" min="1" max="5" pattern="[1-5]" required>
                           </div>
                           <div class="form-group">
-                            <label class="control-label" for="imp_res">Residuak Impact</label>
+                            <label class="control-label" for="imp_res">Residual Impact</label>
                             <input type="number" name="imp_res" class="form-control" id="imp_res" min="1" max="5" pattern="[1-5]" required>
                           </div>
                           <div class="form-group">

@@ -21,7 +21,7 @@ $controller->handleRequest();
               <ol class="breadcrumb">
               <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
                   <li><a href=""><i class="fa fa-dashboard"></i></a></li>
-                  <li><a href=""><?= $level_tampilan?></a></li>
+                  <li><a href=""><?= htmlspecialchars($level); ?></a></li>
                   <li class="active">Analisi dan Mitigasi</li>
               </ol>
           </div>
