@@ -1,13 +1,17 @@
 <?php 
-include("../config/config.php");
-include("../helper/helper.php");
 include("../auth/session.php");
 
-cek_login();
+$sessionManager = new SessionManager();
+$sessionManager->cekLogin();
 
 if (isset($_GET['logout'])) {
-  logout();
+    $sessionManager->logout();
 }
+
+$username = $_SESSION['username'];
+$userData = $sessionManager->getUserData($username);
+$unit_terkait = isset($userData['unit_terkait']) ? $userData['unit_terkait'] : 'Unit tidak ditemukan';
+$level = isset($userData['level']) ? $userData['level'] : 'Level tidak ditemukan';
 
 ?>
 
@@ -21,10 +25,10 @@ if (isset($_GET['logout'])) {
     <meta name="author" content="" />
 
     <title>Manajemen Resiko</title>
-    <link href="<?= base_url('_assets/css/bootstrap.min.css')?>" rel="stylesheet">
-    <link href="<?= base_url('_assets/css/simple-sidebar.css')?>" rel="stylesheet">
-    <link href="<?= base_url('_assets/css/risk-matrix.css')?>" rel="stylesheet">
-    <link href="<?= base_url('_assets/css/profile.css')?>" rel="stylesheet">
+    <link href="../_assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../_assets/css/simple-sidebar.css" rel="stylesheet">
+    <link href="../_assets/css/risk-matrix.css" rel="stylesheet">
+    <link href="../_assets/css/profile.css" rel="stylesheet">
 
 
     
@@ -34,8 +38,8 @@ if (isset($_GET['logout'])) {
     
 </head>
 <body>
-<script src="<?=base_url('_assets/js/jquery.js')?>"></script>
-<script src="<?=base_url('_assets/js/bootstrap.min.js')?>"></script>
+<script src="../_assets/js/jquery.js"></script>
+<script src="../_assets/js/bootstrap.min.js"></script>
 <div id="wrapper">
     <!-- Sidebar -->
     <div id="sidebar-wrapper">
@@ -44,19 +48,19 @@ if (isset($_GET['logout'])) {
                 <a href=""><img src="../_assets/img/logo-rr-white.png" alt="" width="20" class="logo-white">Risky Ranger</a>
             </li>
             <li>
-                <a href="<?=base_url('views/dashboard.php')?>">Dashboard</a>
+                <a href="../views/dashboard.php">Dashboard</a>
             </li>
             <li>
-                <a href="<?=base_url('views/riskReg.php')?>">Risk Register</a>
+                <a href="../views/riskReg.php">Risk Register</a>
             </li>
             <li>
-                <a href="<?=base_url('views/sisMit.php')?>">Analis dan Mitigasi</a>
+                <a href="../views/sisMit.php">Analis dan Mitigasi</a>
             </li>
             <li>
-                <a href="<?=base_url('views/riskMap.php')?>">Risk Map</a>
+                <a href="../views/riskMap.php">Risk Map</a>
             </li>
             <li>
-                <a href="<?=base_url('views/manageUser.php')?>">Manage Users</a>
+                <a href="../views/manageUser.php">Manage Users</a>
             </li>
             <li>
                 <a href="?logout=true" class="text-danger">Logout</a>
@@ -76,10 +80,10 @@ if (isset($_GET['logout'])) {
                 <div class="sub-menu">
                     <div class="user-info">
                         <img src="../_assets/img/profile.jpeg">
-                        <h3><?=$level_tampilan?></h3>
+                        <h3><?= htmlspecialchars($unit_terkait); ?></h3>
                     </div>
                     <hr>
-                    <p>Level : <?=$level_tampilan?></p>
+                    <p>Level: <?= htmlspecialchars($level); ?></p>
                 </div>
             </div>
         </nav>
