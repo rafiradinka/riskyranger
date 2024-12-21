@@ -1,21 +1,20 @@
 <?php 
-// Include necessary files
 include("../template/_header.php");
 include("../models/m_manageUser.php");
 include("../controller/userController.php");
 
-// Database connection using OOP
+// Koneksi Database
 $database = new Database();
 $dbConnection = $database->getConnection();
 
-// Create user model and controller
+// buat model user dan controller
 $user = new ManUser($dbConnection);
 $controller = new ManageUserController($dbConnection, $user);
 
-// Check user authorization
-cek_level('Admin');
+// cek admin bukan
+$sessionManager->cekLevel('Admin');
 
-// Handle any POST or GET requests
+// buat cek POST dan GET
 $controller->handleRequest();
 ?>
 
@@ -27,7 +26,7 @@ $controller->handleRequest();
             <ol class="breadcrumb">
             <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
                 <li><a href=""><i class="fa fa-dashboard"></i></a></li>
-                <li><a href=""><?= $level_tampilan?></a></li>
+                <li><a href=""><?= htmlspecialchars($level); ?></a></li>
                 <li class="active">Manage User</li>
             </ol>
         </div>
@@ -127,12 +126,10 @@ $controller->handleRequest();
               </div>
             </div>
           </div>
-          
-          <script src="assets/js/jquery-1.10.2.js"></script>
+
           <script type="text/javascript">
-          // Handle edit button clicks
+          // klik tombol edit
           document.addEventListener('DOMContentLoaded', function() {
-          // Delegasi event untuk tombol edit
           document.querySelector('tbody').addEventListener('click', function(e) {
               const editButton = e.target.closest('#edit_user');
               if (editButton) {
@@ -149,7 +146,7 @@ $controller->handleRequest();
               }
           });
 
-          // Handle form submission
+          // kirim form edit
           document.getElementById('form').addEventListener('submit', function(e) {
               e.preventDefault();
               const formData = new FormData(this);
