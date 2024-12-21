@@ -30,10 +30,10 @@
 
 ## 💻 Teknologi yang Digunakan
 
-- **Frontend**: HTML, CSS, JavaScript
-- **Backend**: Framework berbasis PHP
-- **Database**: MySQL
-- **Server Lokal**: XAMPP
+- *Frontend*: HTML, CSS, JavaScript, Bootstrap v3.3.1
+- *Backend*: PHP 8.2.12
+- *Database*: MySQL
+- *Server Lokal*: XAMPP
 
 ---
 
@@ -42,7 +42,8 @@
 1. 📥 **Unduh Source Code** dan pastikan **XAMPP** telah terinstal.
 2. 📂 Letakkan **Source Code** di folder `htdocs` pada direktori XAMPP.
 3. ⚙️ Buka **XAMPP Control Panel**, aktifkan **Apache** dan **MySQL**.
-4. 🌐 Akses aplikasi melalui browser di: [`http://localhost:8080/`](http://localhost:8080/)
+4. 🌐 copy file yang ada pada \_assets/db/riskiranger.sql ke localhost
+5. 🌐 Akses aplikasi melalui browser di: [http://localhost/riskyranger]
 
 ---
 
