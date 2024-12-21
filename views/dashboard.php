@@ -7,9 +7,9 @@
 
         .img-dashboard {
           position: absolute;
-          scale: 0.35;
+          scale: 0.4;
           top:-45rem;
-          right: -40rem;
+          right: -30rem;
           z-index: 1;
         }
 
