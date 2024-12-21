@@ -37,6 +37,27 @@ function tampilkanLevel($level) {
 }
 $level_tampilan = tampilkanLevel($_SESSION['level']);
 
+function tampilkanNama($username) {
+    $conn = mysqli_connect("localhost", "root", "", "riskiranger");
+    
+    $query = "SELECT username FROM tb_user WHERE username = ?";
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, "s", $username);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    
+    if ($row = mysqli_fetch_assoc($result)) {
+        return $row['username'];
+    } else {
+        return 'Pengguna Tidak Dikenal';
+    }
+    
+    mysqli_stmt_close($stmt);
+    mysqli_close($conn);
+}
+
+$tampilkan_nama = tampilkanNama($_SESSION['username']);
+
 // Fungsi untuk logout
 function logout() {
     // Hapus semua session
